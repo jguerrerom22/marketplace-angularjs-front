@@ -1,0 +1,21 @@
+{
+  "projects": {
+    "default": "kuvid-e9435"
+  },
+  "targets": {
+    "kuvid-e9435": {
+      "hosting": {
+        "kuvidWeb": [
+          "kuvid-e9435"
+        ]
+      }
+    },
+    "kuvid-280002": {
+      "hosting": {
+        "landingpage": [
+          "kuvid-280002"
+        ]
+      }
+    }
+  }
+}

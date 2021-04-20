@@ -1,0 +1,11 @@
+<div class=" k-input">
+    <label *ngIf="model" [@fadeInOnEnter] for="">{{text |translate}}</label>
+    <input  
+        thousandSeparator="," 
+        class="w-100" 
+        [(ngModel)]="model" 
+        placeholder="{{placeHolder |translate}}" 
+        (input)="inputedit()" 
+        [mask]="mask"  
+        [type]="inputtype">
+</div>

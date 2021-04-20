@@ -1,0 +1,293 @@
+<app-header></app-header>
+
+<div  class="container-fluid mb-5" style="padding-top: 50px;">
+    <div class="row mt-3">
+        <div class="col-md-6 offset-md-1">
+            <h5 style="font-size: 14pt;" class="card-title titleZone mb-1 font-weight-bold">{{ 'shippingInfo' | translate }}</h5>
+            <div class="card">
+                <div class="card-body" >
+                    
+                    <p class="mb-1 colortex" *ngIf="!userInfo.shipping || userInfo.shipping.length === 0">
+                        {{ 'haventRegisteredShippingInfo' | translate }}.
+                    </p>
+
+                    <div *ngIf="userInfo.shipping">
+                        <div (click)="shippingSelected=shipping" *ngFor="let shipping of userInfo.shipping" class="card-selection height-card1" [ngClass]="{'card-selection-select': (shippingSelected._id===shipping._id), 'card-selection-none': (shippingSelected._id!=shipping._id)}" >
+                            <p class="m-0"> {{shipping.city.name}}, {{shipping.address}}, {{shipping.neighborhood}}</p>
+                            <a href="javascript:void(0)" (click)="removeShipping(shipping._id)"><i class="icofont icofont-trash ml-3"></i></a>
+                        </div>
+                    </div>
+                    
+                    <a class="colortext" href="javascript: void(0)" (click)="openShippingForm()"><i class="icofont icofont-plus"></i> {{ 'newAddress' | translate }}</a>
+                </div>
+            </div>
+
+            <h5 style="font-size: 14pt;" class="card-title titleZone mb-1 mt-4 font-weight-bold">{{ 'paymentMethod' | translate }}</h5>
+            <div class="card pl-2">
+                <div class="card-body">
+                    <p *ngIf="!paymentMethodSelectedToShow.text" class="mb-1 colortex">{{ 'haventRegisteredpaymentMethod' | translate }}.</p>
+                    <p *ngIf="paymentMethodSelectedToShow.text" class=" display-1 mr-4 mb-1" style="font-size: 16pt;"> <img [src]="paymentMethodSelectedToShow.icon" height="25px" /> {{ paymentMethodSelectedToShow.text | translate }}{{ paymentMethodSelectedToShow.description }} </p>
+                    <a class="colortext" href="javascript: void(0)" (click)="openPaymentForm()"><i class="icofont icofont-plus" [ngClass]="{'icofont-plus': !paymentMethodSelectedToShow.text, 'icofont-spinner-alt-3': paymentMethodSelectedToShow.text}"></i> {{ paymentMethodSelected.id? ('changePaymentMethod' | translate) : 'addPaymentMethod' | translate }}</a>
+                    
+                </div>
+            </div>
+
+
+            <h5 style="font-size: 14pt;" class="card-title titleZone mb-1 mt-4 font-weight-bold">{{ 'myProducts' | translate }}</h5>
+            <div class="card mb-3" *ngFor="let itemCart of shoppingCart">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-end ">
+                        <div class="userCont mr-3 pointer">
+                            <img [src]="itemCart.company.logo.url" [routerLink]="['/commerce/shop', itemCart.company.id]" alt="">
+                        </div>
+                        <span class="pointer" style="font-size: 18pt;" [routerLink]="['/commerce/shop', itemCart.company.id]">{{ itemCart.company.name }}</span>
+                        <div class="ml-auto" style="width: 120px;"></div>
+                    </div>
+                    <hr>
+                    <div class="my-2 position-relative" *ngFor="let item of itemCart.items">
+                        <div class="position-absolute" style="right: 0px; top: 0px;" >
+                            
+                        </div>
+                        <div class="row equal">
+                            <div class="col-lg-3 col-6">
+                                <img [routerLink]="['/commerce/product', item.itemId]" class="card-img-right flex-auto pointer" [src]="item.profilePicture.url" style="width: 100%;">
+                            </div>
+                            <div class="col-lg-9 col-6 d-flex flex-column justify-content-between">
+                                <div class="row mt-3">
+                                    <div class="col-11">
+                                        <a [routerLink]="['/commerce/product', item.itemId]" class="text-dark text-primary pointer">{{item.title}}</a>
+                                        <a href="javascript:void(0)" class="ml-2" (click)="removeItem(item.id)"><i class="icofont icofont-trash"></i></a>
+                                        <p *ngIf="item.selectableFields">
+                                            <span *ngFor="let field of item.selectableFields.fields" class="mr-2">
+                                                {{ field.name }}: {{ field.value }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                  
+                                </div>
+                                <div class="row state1">
+                                    <div class="col-lg-8 d-flex justify-content-start align-items-start">
+                                        <p style="font-size: 18pt; white-space: nowrap;">{{userlog.currencyFormatter(item.price)}} x</p>
+                                        <div class="ml-1" style="width: 100px;">
+                                            <app-k-select [clear]="false" [items]="quantities" [(model)]="item.quantity" (modelChange)="updateQuantity(item.id, item.quantity)" [placeHolder]="'SelectQuantity'"></app-k-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <p style="font-size: 18pt; white-space: nowrap;" class="colortext">{{userlog.currencyFormatter(item.total)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3 state2">
+                            <div class="col-md-8 col-sm-6 col-7 d-flex justify-content-start align-items-start">
+                                <p style="font-size: 18pt; white-space: nowrap;">{{userlog.currencyFormatter(item.price)}}</p>
+                                <div class="ml-1" style="width: 50px;">
+                                    <app-k-select [clear]="false" [items]="quantities" [(model)]="item.quantity" [placeHolder]="'SelectQuantity'"></app-k-select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-5">
+                                <p style="font-size: 18pt; white-space: nowrap;" class="colortext">{{userlog.currencyFormatter(item.total)}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3" *ngIf="!shoppingCart.length">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="icofont icofont-cart-alt 3x"></i>
+                        <span> {{ 'yourCartIsEmpty' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="finalmargin">
+
+            </div>
+        </div>
+
+       
+        <div class="col-md-4">
+            <div class="positionCheckout" style="position: fixed;">
+                <h5 style="font-size: 14pt;" class="card-title tittleCheckOut1 titleZone font-weight-bold mb-1">{{ 'orderSummary' | translate }}</h5>
+                <div class="card cardChetout" >
+                    <h5 style="font-size: 14pt;" class="card-title tittleCheckOut2  titleZone font-weight-bold mb-0 mt-2">{{ 'orderSummary' | translate }}</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-7">{{ 'totalOrder' | translate }}</div>
+                            <div class="col-5 text-right"><strong style="font-size: 18pt;" class="colortext">{{ userlog.currencyFormatter(totalOrder) }}</strong></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-8"><input type="text" class="form-control" placeholder="{{ 'bonusCode' | translate }}" /></div>
+                            <div class="col-4"><button class="btn btn-outline-info btn-block">{{ 'apply' | translate }}</button></div>
+                        </div>
+                        <div class="row mt-3" *ngIf="errorsForm.paymentMethod">
+                            <div class="col-12">
+                                <span class="text-danger">{{ 'formNoPaymentMethodSelected' | translate }}</span>
+                            </div>
+                        </div>
+                        <div class="k-button k-bcolor-2 mt-2" (click)="checkout()">
+                            <span>{{ 'continue' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="imageBannerCar">
+                    <img src="assets/images/BannerShopCar.png">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<ng-template #addressForm>
+    <app-address-form (close)="endModalAddress($event)" [initialShippingData]="undefined"></app-address-form>
+</ng-template>
+
+<ng-template #paymentModal>
+    <div class="modal-content p-0" style="border: 0px;">
+        <div class="modal-body position-relative w-100 p-0 d-flex justify-content-center align-items-center">
+            <div (click)="closeModal()" class="iconoClose2">
+                <i class="icofont icofont-close icofont-2x"></i>
+            </div>
+    
+            <div class="left-zone">
+                <img style="width: 100%; height: 100%;" src="assets/images/BannerProducts.png" alt="">
+            </div>
+
+            <div class="rigth-zone">
+                <div class="h-100" >
+                <ng-scrollbar class="w-100 scrollProducts" track="all" #scrollable>
+                <div class="card-body">
+                    <h5 style="font-size: 14pt;" class="card-title titleZone mb-1 font-weight-bold">{{ 'select' | translate }} {{ 'paymentMethod' | translate }}</h5>
+
+                    <p> {{ 'paymentDigital' | translate }}</p>
+                    <div class="row">
+
+                        <ng-container *ngFor="let pay of paymentMethods; let i = index">
+                            <div *ngIf="i<2" (click)="paymentMethodSelected=pay" class="col-md-3 mr-2 col-5 card-selection flex-column p-2 height-card2  text-center" [ngClass]="{'card-selection-select': pay.id === paymentMethodSelected.id, 'card-selection-none': !(pay.id === paymentMethodSelected.id)}" >
+                                <img [src]="pay.urlIcon" width="50px" />
+                                <p>{{pay.text | translate}}</p>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <hr>
+                    <p> {{ 'paymentCash' | translate }}</p>
+                    <div class="row">
+                        <ng-container *ngFor="let pay of paymentMethods; let i = index">
+                            <div *ngIf="i>1" (click)="paymentMethodSelected=pay" class="col-md-3 mr-2 col-5  card-selection flex-column p-2 height-card2  text-center" [ngClass]="{'card-selection-select': pay.id === paymentMethodSelected.id, 'card-selection-none': !(pay.id === paymentMethodSelected.id)}" >
+                                <img [src]="pay.urlIcon" [ngStyle]="{'width': (pay.text === 'Red servy' || pay.text === 'Gana')? '100px': '50px'}"  />
+                                <p>{{pay.text | translate}}</p>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div *ngIf="paymentMethodSelected.id === '1' &&  pseData.name !=''" class="w-100">
+                        <hr>
+                        <p class="mt-2">{{ 'dataPse' | translate }}</p>
+                        <p style="font-size: 10pt;">{{'textDataPse' | translate}}</p>
+                        <div class="row">
+                            <div class="col-4 mt-4">
+                                <app-k-select [(model)]="pseData.docType" [items]="documentTypes" [placeHolder]="'documentType'"  [optionValue]="'id'"  ></app-k-select>
+                            </div>
+                            <div class="col-8 mt-4">
+                                <app-k-input [text]="'document'" [(model)]="pseData.document" [inputtype]="'text'"></app-k-input>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12 mt-2">
+                                <app-k-input [text]="'userBankName'" [(model)]="pseData.name" [inputtype]="'text'"></app-k-input>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-4 mt-4">
+                                <app-k-select [(model)]="pseData.personType" [items]="personType" [placeHolder]="'personType'"  [optionValue]="'id'"  ></app-k-select>
+                            </div>
+                            <div class="col-8 mt-4">
+                                <app-k-select [(model)]="pseData.bank" [items]="banks" [placeHolder]="'yourBank'" [optionValue]="'id'" ></app-k-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="paymentMethodSelected.id === '2'">
+                        <div>
+                            <hr>
+                            <p class="mt-2">{{ 'selectCard' | translate }}</p>
+                            <div *ngIf="userInfo.creditCards.length">
+                                <div *ngFor="let card of userInfo.creditCards" class="card-selection height-card1" [ngClass]="{'card-selection-select': card._id === creditCardData.id, 'card-selection-none': !(card._id === creditCardData.id)}" >
+                                    <p class="m-0" (click)="selectCreditCard(card._id, card.mask)"> {{'card' | translate}} {{card.franchise}}, **** **** **** {{card.mask.substring(card.mask.length-4, card.mask.length)}}</p>
+                                    <a href="javascript:void(0)" (click)="deleteCreditCard(card._id)"><i class="icofont icofont-trash ml-3"></i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="!userInfo.creditCards || userInfo.creditCards.length === 0">
+                                <p  style="font-size: 10pt;">{{ 'noCardCreated' | translate }}</p>
+                            </div>
+                        </div>
+
+                        <div class="w-100">
+                            <hr>
+                            <p class="mt-2">{{ 'OrNewCard' | translate }}</p>
+                            <p style="font-size: 10pt;">{{'textCreditCardCreate' | translate}}</p>
+                            <div class="row mt-3">
+                                <div class="col-md-12 mt-4">
+                                    <app-k-input [text]="'creditCardName'" [(model)]="creditCardData.name" [inputtype]="'text'"></app-k-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mt-4">
+                                    <app-k-input [text]="'creditCardNumber'" [(model)]="creditCardData.number" [mask]="'0000-0000-0000-0000'" [inputtype]="'text'"></app-k-input>
+                                </div>
+                            </div>
+                            <p class="mt-3">{{'expirationDate' | translate}}</p>
+                            <div class="row">
+                                <div class="col-6 mt-4">
+                                    <app-k-select [(model)]="creditCardData.month" [items]="months" [placeHolder]="'month'" ></app-k-select>
+                                </div>
+                                <div class="col-6 mt-4">
+                                    <app-k-select [(model)]="creditCardData.year" [items]="years" [placeHolder]="'year'" ></app-k-select>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-6 mt-4">
+                                    <app-k-input [text]="'CVC'" [(model)]="creditCardData.cvc" [inputtype]="'text'"></app-k-input>
+                                </div>
+                                <div class="col-6">
+                                    <div class="md-checkbox mb-0">
+                                        <input id="i1" type="checkbox" [(ngModel)]="creditCardData.saveCard">
+                                        <label class="noselect mb-0" for="i1">{{'addCreditCard' | translate}}</label>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2" *ngIf="errorsForm.pse || errorsForm.creditCard">
+                        <div class="col-12">
+                            <span class="text-danger">{{ 'emptyFields' | translate }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2" *ngIf="errorRegistrationCreditCard">
+                        <div class="col-12">
+                            <span class="text-danger">{{ 'errorCreditCardRegistration' | translate }}</span>
+                        </div>
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-end mb-2 mt-2 align-items-center">
+                        <div (click)="selectPaymentMethod()" style="width: 120px;" >
+                          <div class="k-button k-bcolor-2 mt-2">
+                            <span> {{'add' | translate}} </span>
+                          </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </ng-scrollbar>
+                </div>
+            </div>
+        </div>
+        <ngx-loading [show]="loading"></ngx-loading>
+    </div>
+</ng-template>

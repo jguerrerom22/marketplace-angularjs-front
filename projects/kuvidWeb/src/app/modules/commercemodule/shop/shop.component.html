@@ -1,0 +1,101 @@
+<app-header></app-header>
+<div class="w-100" style="padding-top: 55px;">
+   
+        <div class="containerImage position-relative" [style.background-image]="'url(' + infoCompany.coverPicture[1].url + ')'">
+          
+                <div class="containerInfo">
+                    <div class="containerLogo">
+                        <img style="width: 100%;" [src]="infoCompany.logo[1].url" alt="">
+                    </div>
+
+                    <div class="containerBottonFollow">
+                        <div class="v-button-parent">
+                            <div style="clip-path: polygon(0 0, 100% 32%, 94% 100%, 8% 100%)" class="v-button k-bcolor-1" *ngIf="!infoCompany.isFollowed" (click)="follow()">
+                                <i class="icofont icofont-favourite"></i>
+                                <span style="position: relative; top: 2px;"> {{'seguir' | translate}} </span>
+                            </div>
+                            <div style="clip-path: polygon(0 0, 100% 32%, 94% 100%, 8% 100%)" class="v-button k-bcolor-3" *ngIf="infoCompany.isFollowed" (click)="unfollow()">
+                                <span> {{'noseguir' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calificacion d-flex justify-content-center align-items-center">
+                        <span class=" material-icons text-white">grade</span>
+                        <span class="numero text-white font-weight-bold" style="font-size: 25pt;"> {{ infoCompany.rating }} </span>
+                    </div>
+                    <h3 style="font-size: 40pt;">{{infoCompany.name}}</h3>
+                    <h5 *ngIf="infoCompany.slogan">{{infoCompany.slogan}} </h5>
+
+                    <div class="containerFunctions">
+                        <div class="pointer d-flex justify-content-center align-content-center">
+                            <i style="color: #F72930;" class="mr-1 icofont icofont-heart"></i>
+                            <p style="color: #F72930;" class="m-0 onlyWeb" > {{'followers' | translate}} </p>
+                            <p style="color: #F72930;" class="m-0 " >({{ infoCompany.followers }}) </p>
+                        </div>
+                        <div class="pointer ml-3 d-flex justify-content-center align-content-center">
+                            <i style="color: #EE00FF;" class="mr-1 icofont icofont-box"></i>
+                            <p style="color: #EE00FF;" class="m-0 " [routerLink]="['/search/company', infoCompany._id]"> {{'showProducts' | translate}} </p>
+                        </div>
+                        <div  class="pointer ml-3 d-flex justify-content-center align-content-center" (click)="openRatingModal()">
+                            <i style="color: #6D40F3;" class="mr-1 icofont icofont-star"></i>
+                            <p style="color: #6D40F3;" class="m-0 onlyWeb" >{{'rate' | translate}}</p>
+                        </div>
+                    </div>
+                </div>
+           
+        </div>
+        <div class="container d-flex justify-content-center align-items-center contReviews">
+            <div class="containerComments">
+                <app-comments *ngIf="infoCompany.reviews.length" (newReview)="createComment($event)" [canAdd]="false" [reviews]="infoCompany.reviews"></app-comments>
+            </div>
+        </div>
+
+        <div class="container">
+            
+        
+            <div class="row w-100 mb-5">
+                <div class="col pt-4" style="background-color: #EEEEEE; border-radius: 10px;">
+    
+                    <div class="row" *ngIf="posts.length == 0">
+                        <div class="col align-items-center justify-content-center">
+                            <div class="text-center py-3" style="color: #887575">
+                                <i class="icofont icofont-edit" style="font-size: 40px; "></i>
+                                <p>{{ 'dontHavePosts' | translate }}</p>
+                                <a href="#" (click)="createPost($event)">{{ 'createPost' | translate }}</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4" *ngFor="let post of posts; let i = index">
+                            <app-post  [company]="post" [index]="i"></app-post>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+</div>
+ 
+
+<ng-template #rateCompany>
+    <div class="modal-content p-0" style="border: 0px;">
+        <div class="modal-body w-100 p-2 d-flex justify-content-center align-items-center flex-column">
+            <p class="text-center mb-2">{{ 'yourOpinionMakesImprove' | translate }}... ¿{{ 'howRateTo' | translate }} {{infoCompany.name}}?</p>
+            <div class="mt-0 w-100 align-items-center">
+                <ngx-star-rating [(ngModel)]="rating.rate" [disabled]="false"></ngx-star-rating>
+            </div>
+            <div class="text-danger text-center mb-3" *ngIf="ratingError">{{ 'selectRating' | translate }}</div>
+            <div class="mt-0 mb-1" style="width: 100%;">
+                <app-k-textarea [rows]="3" [(model)]="rating.comment" [text]="'textObservations'" ></app-k-textarea>
+            </div>
+            <div class="w-100">
+                <div (click)="saveRating()" class="k-button k-position position-relative  k-bcolor-2">
+                    <span> {{'send' | translate}} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

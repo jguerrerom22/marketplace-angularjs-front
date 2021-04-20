@@ -1,0 +1,12 @@
+<div class="w-100 position-relative">
+    <label *ngIf="model" [@fadeInOnEnter] for="">{{placeHolder |translate}}</label>
+    <ngx-select [allowClear]="clear"
+        [items]="items"
+        [noAutoComplete]="!autocomplete"
+        [(ngModel)]="model"
+        [placeholder]="translate.instant(placeHolder)"
+        (select)="selected()"
+        [optionValueField]="optionValue"
+        >
+    </ngx-select>
+</div>

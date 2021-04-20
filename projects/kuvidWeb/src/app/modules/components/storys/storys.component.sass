@@ -1,0 +1,124 @@
+.contenedorStory
+    width: 100%
+    height: 260px
+    background-color: white
+    border: 1px solid #DBDBDB
+    border-radius: 3px
+    display: flex
+
+.contenedorStorymobile
+    display: none
+    width: 100%
+    height: 100px
+    background-color: white
+    border: 1px solid #DBDBDB
+    border-radius: 3px
+    overflow-y: hidden
+    overflow-x: auto
+    &::-webkit-scrollbar
+        display: none
+    
+.tituloZona
+    font-size: 10pt
+    margin: 
+        bottom: 0px
+
+.modalBack
+    width: 100vw
+    height: 100vh
+    position: fixed
+    top: 0px
+    left: 0px
+    z-index: 30
+    background-color: rgba(0, 0, 0, 0.8)
+
+.storyBig
+    height: 97vh
+    width: 360px
+    background-color: black
+
+.arrow
+    position: absolute
+    height: 36px
+    width: 36px
+    border-radius: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: white
+    cursor: pointer
+    z-index: 2
+    cursor: pointer
+    top: 30px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+    span 
+        color: #3c3c3c
+
+.leftarrow 
+    left: 0px
+
+.rightarrow 
+    right: 0px
+    
+
+
+.zonaInterior
+    width: 50px !important
+    height: 46px
+    background-color: #9B9B9B
+    border-radius: 5px
+    img 
+        height: 100%
+        width: 100%
+
+.nombreEmpresa
+    font-size: 9pt
+    text-align: left
+    margin: 
+        top: 5px
+        bottom: 0px
+    line-height: 1
+
+.nombreEmpresaMobile
+    width: 60px
+    font-size: 9pt
+    text-align: center
+    margin: 
+        top: 5px
+        bottom: 0px
+    line-height: 1
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
+
+.zonaExterior
+    border-radius: 7px
+    padding: 3px
+    cursor: pointer
+
+.itemContent
+    width: 100%
+    margin: 
+        left: 4px
+        right: 4px
+
+.storyContent
+    width: 100%
+    overflow-x: hidden
+    overflow-y: auto
+    height: calc(100% - 30px)
+
+.gradient
+    background: rgb(7,19,242)
+    background: linear-gradient(137deg, rgba(7,19,242,1) 0%, rgba(73,194,194,1) 50%, rgba(30,231,57,1) 100%)
+    
+
+.flexNow
+    display: flex
+
+@media (max-width: 760px)
+    .contenedorStory
+        display: none
+
+    .contenedorStorymobile
+        display: flex

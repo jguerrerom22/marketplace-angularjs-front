@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div infiniteScroll [infiniteScrollDistance]="2"  (scrolled)="callMoreEduvid() " class="container-fluid d-flex justify-content-center align-items-start" style="padding-top: 50px;">
+    <div class=" contenedorVids mt-3">
+        <div class="row">
+            <div class="col">
+                <div class="bannerTop">
+                    <img class="w-100" src="assets/images/BannerEDUVID.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 my-2 containerEduVid position-relative" *ngFor="let category of coursesList; let i = index">
+                <div  class="leftarrow arrow owl-nav owl-prev" (click)="scrolltoleft(i)">
+                    <span class="noselect  material-icons">keyboard_arrow_left</span>
+                </div>
+                <div  class="rightarrow arrow owl-nav owl-next" (click)="scrolltoright(i)">
+                    <span class="noselect  material-icons">keyboard_arrow_right</span>
+                </div> 
+                <h4> {{category.category}} </h4>
+                <owl-carousel #categories  [options]="{items: 1, margin: 0, dots: false, nav: false, loop: false, navRewind : false, responsive: {'760': {items: 3, margin: 20}}}"  [carouselClasses]="['owl-theme', 'sliding', 'ml-3']" >
+                    <div class=" item " *ngFor="let lesson of category.courses; let b = index">
+                        <div class="w-100">
+                            ss
+                        </div>
+                    </div>
+                </owl-carousel>
+            </div>
+            <div class="col">
+                <app-post  [company]="coursesList[0].courses[0]" [index]="0"></app-post>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,289 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "kuvidWeb": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/kuvidWeb",
+      "sourceRoot": "projects/kuvidWeb/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/kuvidWeb",
+            "index": "projects/kuvidWeb/src/index.html",
+            "main": "projects/kuvidWeb/src/main.ts",
+            "polyfills": "projects/kuvidWeb/src/polyfills.ts",
+            "tsConfig": "projects/kuvidWeb/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/kuvidWeb/src/favicon.ico",
+              "projects/kuvidWeb/src/assets"
+            ],
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/@icon/icofont/icofont.css",
+              "projects/kuvidWeb/src/styles.sass",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/owl.carousel/dist/owl.carousel.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "ngx-owl-carousel",
+              "js-sha256",
+              "lodash"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/kuvidWeb/src/environments/environment.ts",
+                  "with": "projects/kuvidWeb/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "kuvidWeb:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "kuvidWeb:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "kuvidWeb:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/kuvidWeb/src/test.ts",
+            "polyfills": "projects/kuvidWeb/src/polyfills.ts",
+            "tsConfig": "projects/kuvidWeb/tsconfig.spec.json",
+            "karmaConfig": "projects/kuvidWeb/karma.conf.js",
+            "assets": [
+              "projects/kuvidWeb/src/favicon.ico",
+              "projects/kuvidWeb/src/assets"
+            ],
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "projects/kuvidWeb/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/kuvidWeb/tsconfig.app.json",
+              "projects/kuvidWeb/tsconfig.spec.json",
+              "projects/kuvidWeb/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/kuvidWeb/e2e/protractor.conf.js",
+            "devServerTarget": "kuvidWeb:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "kuvidWeb:serve:production"
+            }
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
+        }
+      }
+    },
+    "landingpage": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/landingpage",
+      "sourceRoot": "projects/landingpage/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/landingpage",
+            "index": "projects/landingpage/src/index.html",
+            "main": "projects/landingpage/src/main.ts",
+            "polyfills": "projects/landingpage/src/polyfills.ts",
+            "tsConfig": "projects/landingpage/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/landingpage/src/favicon.ico",
+              "projects/landingpage/src/assets"
+            ],
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/@icon/icofont/icofont.css",
+              "projects/landingpage/src/styles.sass"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/owl.carousel/dist/owl.carousel.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/landingpage/src/environments/environment.ts",
+                  "with": "projects/landingpage/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "landingpage:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "landingpage:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "landingpage:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/landingpage/src/test.ts",
+            "polyfills": "projects/landingpage/src/polyfills.ts",
+            "tsConfig": "projects/landingpage/tsconfig.spec.json",
+            "karmaConfig": "projects/landingpage/karma.conf.js",
+            "assets": [
+              "projects/landingpage/src/favicon.ico",
+              "projects/landingpage/src/assets"
+            ],
+            "styles": [
+              "projects/landingpage/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/landingpage/tsconfig.app.json",
+              "projects/landingpage/tsconfig.spec.json",
+              "projects/landingpage/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/landingpage/e2e/protractor.conf.js",
+            "devServerTarget": "landingpage:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "landingpage:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "kuvidWeb"
+}

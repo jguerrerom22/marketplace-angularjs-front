@@ -1,0 +1,27 @@
+<div class="products container position-relative">
+    <div class="identificador mt-3">
+        <!--<p *ngIf="!typeCategory" class="nombrePost">{{'Productos de' | translate}} {{companie}}</p> -->
+        <p *ngIf="typeCategory"  class="nombrePost"> {{companie | translate}} </p>
+    </div>
+    <div class="contenedorProducts position-relative mt-4">
+        <div  class="leftarrow arrow owl-nav owl-prev" (click)="scrolltoleft()">
+            <span class="noselect  material-icons">keyboard_arrow_left</span>
+        </div>
+        <div  class="rightarrow arrow owl-nav owl-next" (click)="scrolltoright()">
+            <span class="noselect  material-icons">keyboard_arrow_right</span>
+        </div> 
+        <owl-carousel #productos  [options]="{items: 1, margin: 0, dots: false, nav: false, loop: false, navRewind : false, responsive: {'760': {items: numberItems, margin: 20}}}"  [carouselClasses]="['owl-theme', 'sliding', 'ml-3']" >
+            <div class=" item w-100 position-relative " *ngFor="let product of products">
+                <div class="crowimage" [ngClass]="{'crowimage4': fourItems}">
+                    <img [routerLink]="['/commerce/product', product._id]" [src]="(product.profilePic)? product.profilePic : product.profilePicture[0].url" alt="">
+                </div>  
+                <div style="height: 20px;">
+
+                </div> 
+                <div class="precio d-flex justify-content-center align-items-center">
+                    <span> {{currencyFormatter(product.price)}} </span>
+                </div>       
+            </div>
+        </owl-carousel>
+    </div>
+</div>

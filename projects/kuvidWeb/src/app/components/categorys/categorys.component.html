@@ -1,0 +1,27 @@
+<div class="cuerpocategory">
+    <div class="tituloZona">
+        <p class="ml-3 mt-1 mb-0 titleZone" style="font-weight: bold;">{{'categorias' | translate}}</p>
+    </div>
+    <div class="w-100 mt-2 px-2 pb-3">
+        <div class="row">
+            <div class="pr-1" *ngIf="products.length" [ngClass]="{'col-6': services.length, 'col-12': !services.length}">
+                <p class="minText">Productos</p>
+                <hr class="mt-0">
+                <!-- <div [routerLink]="['/searching']" [queryParams]="{ c: product._id}" *ngFor="let product of products" class="botonCategory d-flex justify-content-start align-items-center pl-2"> -->
+                <div (click)="selectCategory(product._id)" *ngFor="let product of products" class="botonCategory d-flex justify-content-start align-items-center pl-2">
+                    <i class="icofont icofont-{{product.icon}}"></i>
+                    <span class="textCat ml-2">{{product.name}}</span>
+                </div>
+            </div>
+            <div class="pl-1" *ngIf="services.length" [ngClass]="{'col-6': products.length, 'col-12': !products.length}">
+                <p class="minText">Servicios</p>
+                <hr class="mt-0">
+                <!-- <div [routerLink]="['/searching']" (click)="selectCategory(service._id)" [queryParams]="{ c: service._id}" *ngFor="let service of services" class="botonCategory d-flex justify-content-start align-items-center"> -->
+                <div (click)="selectCategory(service._id)" *ngFor="let service of services" class="botonCategory d-flex justify-content-start align-items-center">
+                    <i class="icofont icofont-{{service.icon}}"></i>
+                    <span class="textCat ml-2"> {{service.name}} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

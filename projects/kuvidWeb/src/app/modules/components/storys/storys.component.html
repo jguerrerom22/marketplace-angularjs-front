@@ -1,0 +1,58 @@
+<div #contenedor (click)="dime(contenedor)" *ngIf="!horizontal" class="contenedorStory flex-shrink-0 align-items-start flex-column">
+    <!--  <div *ngIf="showleft" class="leftarrow arrow" (click)="scrolltoleft(contenedor)">
+         <span class=" material-icons">keyboard_arrow_left</span>
+     </div>
+     <div *ngIf="showright" class="rightarrow arrow" (click)="scrolltoright(contenedor)">
+         <span class=" material-icons">keyboard_arrow_right</span>
+     </div> -->
+     <div class="tituloZona">
+         <p class="ml-3 mt-1 mb-0 titleZone" style="font-weight: bold;">{{'experiencias' | translate}}</p>
+     </div>
+     <div style="width: 100px;" *ngIf="!stories.length">
+         <ngx-skeleton-loader  count="5" [theme]="{ 
+             'border-radius': '5px'
+           }" appearance="circle"> </ngx-skeleton-loader>
+     </div>
+     <div class="storyContent" *ngIf="stories.length">
+         <div (click)="activestory(story)" *ngFor="let story of stories" class="itemContent d-flex justify-content-start align-items-center mt-1">
+             <div  #itemstory class="zonaExterior gradient  ml-2 mr-2" >
+                 <div class="zonaInterior">
+                    <img [src]="story.company.logo[1].url" alt="">
+                 </div>
+             </div>
+             <div class="ml-0 d-flex justify-content-center align-items-start flex-column">
+                 <p class="nombreEmpresa"> {{story.company.name}} </p>
+                 <app-date-format [createdAt]="story.createdAt"></app-date-format>
+             </div>
+         </div>
+     </div>
+     
+ </div>
+ 
+ 
+ <div #contenedor (click)="dime(contenedor)" [ngClass]="{'flexNow': horizontal}" class="contenedorStorymobile  flex-shrink-0 align-items-start">
+    <div *ngIf="horizontal"  class="leftarrow arrow" (click)="scrolltoleft()">
+        <span class=" material-icons">keyboard_arrow_left</span>
+    </div>
+    <div *ngIf="horizontal"  class="rightarrow arrow" (click)="scrolltoright()">
+        <span class=" material-icons">keyboard_arrow_right</span>
+    </div>
+    <div *ngFor="let story of stories" class="itemContent d-flex justify-content-start flex-column align-items-start">
+        <div (click)="activestory(story)" #itemstory class="zonaExterior gradient mt-2" >
+            <div class="zonaInterior">
+                <img [src]="story.company.logo[1].url" alt="">
+            </div>
+        </div>
+        <div class=" d-flex justify-content-center align-items-start flex-column">
+            <p class="nombreEmpresaMobile"> {{story.company.name}} </p>
+        </div>
+    </div>
+      
+  </div>
+ 
+ <div *ngIf="storyActive" (click)="storyActive = false" class="modalBack d-flex justify-content-center align-items-center">
+     <div class="storyBig" (click)="$event.stopPropagation()">
+         
+     </div>
+ </div>
+ 

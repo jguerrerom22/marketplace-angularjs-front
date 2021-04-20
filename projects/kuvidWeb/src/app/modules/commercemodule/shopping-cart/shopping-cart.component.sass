@@ -1,0 +1,176 @@
+.left-zone
+    height: 70vh
+    width: 35%
+    max-height: 500px
+
+.rigth-zone
+    height: 70vh
+    width: 65%
+    max-height: 500px
+    margin-right: auto
+    position: relative
+
+.zonePost
+    height: 100%
+    width: 450px
+    background-color: white
+    position: relative
+    p 
+        width: 100%
+        padding-left: 10px
+        padding-right: 10px
+    .photoPost
+        width: 100%
+        height: 270px
+        background-color: #3d3d3d
+
+.imageSelect
+    height: 550px
+
+.w-90
+    width: 90%
+    
+    
+    
+.itemCont
+    background-color: #090909
+    height: 140px
+    width: 140px
+    border-radius: 7px
+    overflow: hidden
+    cursor: pointer
+    img 
+        width: 100%
+        height: 100%
+        &:hover
+            opacity: 0.8
+
+.userCont
+    width: 50px
+    height: 50px
+    background-color: #EBEBEB
+    border: 1px solid #6D40F3
+    border-radius: 10px
+    overflow: hidden
+    z-index: 5
+    img 
+        height: 100%
+        width: 100%       
+
+.scrollProducts
+    --scrollbar-color: #6D40F3
+    --scrollbar-thumb-color: #6D40F3
+    --scrollbar-container-color: #6D40F3     
+
+.row-item
+    border-top: 1px solid rgba(0,0,0,.125)
+
+.card-no-border 
+    border: 0px
+    border-radius: 0px
+
+.card-selection
+    padding: 
+        left: 10px
+        right: 10px
+    border: 1px solid #C7C7C7
+    border-radius: 5px
+    margin-bottom: 6px
+    display: flex 
+    justify-content: space-between
+    align-items: center
+    p 
+        font-size: 10pt
+        margin-bottom: 0px
+        line-height: 14px
+
+.height-card1
+    padding: 
+        top: 5px
+        bottom: 5px
+
+.height-card2
+    min-height: 90px
+
+.card-selection-select
+    background: rgb(109,64,243)
+    background: linear-gradient(90deg, rgba(109,64,243,1) 0%, rgba(254,0,197,1) 48%, rgba(247,41,48,1) 100%)
+    -webkit-background-clip: text
+    -moz-background-clip: text
+    background-clip: text
+    -webkit-text-fill-color: transparent
+    border: 2px solid #7E11FC
+
+.card-selection-none
+    cursor: pointer
+
+
+.state2
+    display: none
+.state1
+    display: flex
+
+
+
+
+@media (max-width: 992px)
+    .state2
+        display: flex
+    .state1
+        display: none
+
+
+@media (max-width: 760px)
+    .moveImages
+        flex-wrap: wrap
+
+    .left-zone
+        display: none
+
+    .rigth-zone
+        width: 100%
+        height: 90vh
+        max-height: none
+
+    .zoneHeight
+        height: 82vh
+
+    .positionStepForm
+        left: calc(50% - 125px)
+        top: calc( 100% - 10px )
+        transform: rotate(-90deg) 
+        transform-origin: center
+        i 
+            transform: rotate(90deg)
+
+.tittleCheckOut1
+        display: block
+.tittleCheckOut2
+        display: none
+
+
+.finalmargin
+    width: 100%
+    height: 140px
+    display: none
+
+@media (max-width: 766px)
+    .finalmargin
+        display: block
+
+    .cardChetout
+        border-top: 3px solid #7E11FC
+
+    .positionCheckout
+        width: 100%
+        bottom: 10px
+        z-index: 5
+        left: 0px
+
+    .imageBannerCar
+        display: none
+
+    .tittleCheckOut1
+        display: none
+    .tittleCheckOut2
+        display: block

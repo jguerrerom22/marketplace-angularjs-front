@@ -1,0 +1,22 @@
+<div class="modal-content p-0" style="border: 0px;">
+    <div class="modal-body position-relative w-100 p-0 ">
+      <div (click)="closeModal()" class="iconoClose2">
+        <i class="icofont icofont-close icofont-2x"></i>
+      </div>
+      <div class="mt-4 pb-3 px-2 d-flex justify-content-center align-items-center flex-column">
+          <!-- <p>{{'change' | translate}} {{data.typeData | translate}}</p>
+          <div class="w-100 ">
+            <app-k-input [(model)]="contentData" [text]="data.typeData"></app-k-input>
+          </div> -->
+          <p class="mb-1 mt-2 text-center">{{'changeText' | translate}}</p>
+          <div class="w-100 ">
+            <app-k-input [(model)]="password" [inputtype]="'password'" [text]="'password'"></app-k-input>
+          </div>
+          <div  style="width: 120px;" (click)="saveNewData()">
+            <div class="k-button k-bcolor-2 mt-2">
+              <span class="noselect"> {{'save' | translate}} </span>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>

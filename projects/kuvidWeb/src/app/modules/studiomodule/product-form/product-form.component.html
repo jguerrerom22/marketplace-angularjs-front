@@ -1,0 +1,369 @@
+<div class="modal-content p-0" style="border: 0px;">
+  <div class="modal-body position-relative w-100 p-0 d-flex justify-content-center align-items-center">
+    <div (click)="closeModal()" class="iconoClose2">
+      <i class="icofont icofont-close icofont-2x"></i>
+    </div>
+
+    <div *ngIf="helpActive" class="containerHelps">
+      <div class="shadow"></div>
+      <div class="contColor">
+        <p class="mt-4 m-0">
+          {{(steps === 1) ? 'textProductHelp1': ((steps === 2)? 'textProductHelp2' : ((steps === 3)?'textProductHelp3': ((steps === 4)? 'textProductHelp4' : '') )) | translate}}
+        </p>
+        <p (click)="helpActive = false" class="mt-4 mb-0"
+          style="font-size: 12pt; text-decoration: underline; cursor: pointer;">{{'ok' | translate}} </p>
+      </div>
+    </div>
+
+    <div class="left-zone">
+      <img style="width: 100%; height: 100%;" src="assets/images/BannerProducts.png" alt="">
+    </div>
+
+    <div class="rigth-zone">
+
+      <div *ngIf="editing" class="tapsForm positionStepForm">
+        <i (click)="steps = 1" class="icofont icofont-card"
+          [ngClass]="{'tabGray': !(steps === 1), 'tabColor': (steps === 1)}" style="top: 0px;"></i>
+        <i (click)="steps = 2" class="icofont icofont-settings"
+          [ngClass]="{'tabGray': !(steps === 2), 'tabColor': (steps === 2)}" style="top: 80px;"></i>
+        <i (click)="steps = 3; loadCombinations()" class="icofont icofont-price"
+          [ngClass]="{'tabGray': !(steps === 3), 'tabColor': (steps === 3)}" style="top: 160px;"></i>
+        <i (click)="steps = 4" class="icofont icofont-image"
+          [ngClass]="{'tabGray': !(steps === 4), 'tabColor': (steps === 4)}" style="top: 240px;"></i>
+      </div>
+
+      <div *ngIf="!editing" class="stepsForm positionStepForm">
+        <div class="backLineFormCreate"></div>
+        <div [ngStyle]="{'height': (steps === 1)? '0px': ((steps===2)? '80px' : ((steps===3)? '160px' : '240px'))}"
+          class="lineaFormCreate"></div>
+        <div style="background-color:#6D40F3; top: 0px;" class="stepOneForm"></div>
+        <div [ngStyle]="{'background-color': (steps > 1)? '#6D40F3': '#e0e0e0'}" class="stepOneForm" style="top: 80px;">
+        </div>
+        <div [ngStyle]="{'background-color': (steps > 2)? '#6D40F3': '#e0e0e0'}" class="stepOneForm"
+          style="top: 160px;"></div>
+        <div [ngStyle]="{'background-color': (steps > 3)? '#6D40F3': '#e0e0e0'}" class="stepOneForm"
+          style="top: 240px;"></div>
+      </div>
+
+      <div class="w-100 h-100 ">
+        <div *ngIf="steps === 1" class="w-100 h-100  d-flex pt-4 pb-4 justify-content-center align-items-start flex-column">
+
+          <ng-scrollbar class="w-100  scrollProducts" track="all" #scrollable>
+            <div class="pr-3 pl-2 zoneHeight">
+              <div class="col-12 d-flex justify-content-start align-items-center">
+                <p class=" display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'productCreationTitle' | translate}} </p>
+                <div (click)="helpActive = !helpActive" class="helpIcon">
+                  <i class="icofont icofont-question-circle"></i>
+                </div>
+              </div>
+              <p style="font-size: 10pt;">{{'textProductCreation' | translate}}</p>
+              <div class="selectType w-100">
+                <p class="mt-2">{{'SelectType' | translate}}</p>
+              </div>
+              <div class="selectType w-100" *ngIf="errors.type">
+                <small class="text-danger">{{ 'formValidProductType' | translate }}</small>
+              </div>
+              <div class="selectType w-100">
+                <div class="noselect boxMargin  boxSelect "
+                  [ngClass]="{'boxColor1': item.type === 'product', 'boxNoColor': item.type != 'product'}"
+                  [ngStyle]="{'cursor': item.type === 'product'? 'default': 'pointer'}"
+                  (click)="changeCategories('product')">
+                  <img
+                    [src]="item.type === 'product'? 'assets/images/productsChose.png':'assets/images/productsDisable.png'"
+                    alt="">
+                  <p class="mb-0 mt-3" [ngStyle]="{'color': item.type === 'product'? '#7E11FC': '#8C8C8C'}">
+                    {{'product' | translate}} </p>
+                </div>
+                <div class="noselect  boxSelect"
+                  [ngClass]="{'boxColor2': item.type === 'service', 'boxNoColor': item.type != 'service'}"
+                  [ngStyle]="{'cursor': item.type === 'service'? 'default': 'pointer'}"
+                  (click)="changeCategories('service')">
+                  <img
+                    [src]="item.type === 'service'? 'assets/images/servicesChose.png':'assets/images/servicesDisable.png'"
+                    alt="">
+                  <p class="mb-0 mt-3" [ngStyle]="{'color': item.type === 'service'? '#FF00FD': '#8C8C8C'}">
+                    {{'service' | translate}} </p>
+                </div>
+              </div>
+
+              <div class="w-100 mt-4">
+                <app-k-input [(model)]="item.name" [inputtype]="'text'"
+                  [text]=" !item.type? 'formYourProductServiceName' : (item.type === 'product'? 'formYourProductName': 'formYourServiceName' )">
+                </app-k-input>
+                <small class="text-danger" *ngIf="errors.name">{{ 'formValidYourProductName' | translate }}</small>
+              </div>
+              <div class="w-100 mt-4" *ngIf="item.type">
+                <app-k-select [(model)]="item.category" [items]="categories" [placeHolder]="'category'">
+                </app-k-select>
+                <small class="text-danger" *ngIf="errors.category">{{ 'formValidProductCategory' | translate }}</small>
+              </div>
+              <div class="w-100 mt-4">
+                <app-k-textarea [rows]="4" [(model)]="item.description" [text]="'formProductDescription'">
+                </app-k-textarea>
+                <small class="text-danger" *ngIf="errors.description">{{ 'formValidProductDescription' | translate }}</small>
+                <div class="emojiButton" (click)="emojisActive=!emojisActive"
+                  [ngClass]="{ 'emojiSelect': emojisActive, 'emojiNoselect':!emojisActive}">
+                  <i class="icofont icofont-slightly-smile"></i>
+                </div>
+                <div *ngIf="emojisActive" style="overflow-y: hidden; height: 210px;">
+                  <emoji-mart (emojiClick)="addEmoji($event)" [showPreview]="false" [darkMode]="false"
+                    [ngClass]="{'hide-emoji-mart-search' : true}"
+                    [style]="{ width: '100%', bottom: '20px', right: '20px' }"
+                    [i18n]="{ search: 'Buscar', categories: { search: 'Resultado de la búsqueda', recent: 'Recientes' } }">
+                  </emoji-mart>
+                </div>
+              </div>
+              <div class="w-100 d-flex justify-content-end mb-2 align-items-center">
+                <div *ngIf="!editing" style="width: 120px;" (click)="changeStep(2)">
+                  <div class="k-button k-bcolor-2 mt-2">
+                    <span> {{'next' | translate}} </span>
+                  </div>
+                </div>
+                <div *ngIf="editing" style="width: 120px;" (click)="saveEdition(1)">
+                  <div class="k-button k-bcolor-3 mt-2">
+                    <span> {{'save' | translate}} </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-scrollbar>
+
+        </div>
+
+        <div *ngIf="steps === 2" class="pt-4 pb-4 h-100 d-flex justify-content-center align-items-start flex-column">
+          <ng-scrollbar class="w-100 scrollProducts" track="all" #scrollable>
+            <div class="pr-3 pl-2 zoneHeight">
+              <div class="col-12 d-flex justify-content-start align-items-center">
+                <p class="mb-0 mr-4 display-1" style="font-size: 16pt;"> {{'productCreationTitle2' | translate}} </p>
+                <div (click)="helpActive = !helpActive" class="helpIcon">
+                  <i class="icofont icofont-question-circle"></i>
+                </div>
+              </div>
+
+              <p style="font-size: 10pt;">{{'textProductCreation2' | translate}}</p>
+              <div class="w-100 mt-4 d-flex justify-content-center align-items-start flex-column">
+                <div class="addWord" (click)="addVariation()">
+                  <i class="icofont icofont-plus"></i>
+                  <p class="mb-0"> {{'newVariation' | translate}} </p>
+                </div>
+
+                <div class="containerVariations">
+                  <p *ngIf="!variations.length">{{'thisproductdontvariations' | translate}}</p>
+                  <div *ngFor="let variation of variations; let i = index" class="variationsContainer row">
+                    <div class="minusIcon" style="cursor: pointer;" (click)="removeVariation(i)">
+                      <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                    </div>
+
+                    <div style="width: 100%;" class="mr-3 mb-3 col-sm-6">
+                      <app-k-input [(model)]="variation.name" [inputtype]="'text'" [text]="'NameVariation'" [placeHolder]="'formPlaceHolderVariationName'">
+                      </app-k-input>
+                    </div>
+                    <div class="optionsContainer col-sm-5">
+                      <div style="width: 100%; padding-right: 35px; "
+                        *ngFor="let option of variation.opts; let o = index" class="mb-3 position-relative">
+                        <app-k-input [(model)]="option.name" [inputtype]="'text'" [text]="'NameOption'" [placeHolder]="'formPlaceHolderVariationValue'"></app-k-input>
+                        <div class="minusIcon" *ngIf="variation.opts.length > 1" style="cursor: pointer;"
+                          (click)="removeOption(variation, o)">
+                          <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                        </div>
+                      </div>
+                      <div class="addWord" (click)="addOption(variation)">
+                        <i class="icofont icofont-plus"></i>
+                        <p class="mb-0"> {{'newOption' | translate}} </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onlyMovil">
+                <p class="mb-0" style="font-size: 10pt;">{{'dontNeedVariation' | translate}}</p>
+              </div>
+              <div class="w-100 d-flex justify-content-end align-items-center">
+                <div class="onlyWeb mr-2">
+                  <p class="mb-0" style="font-size: 10pt;">{{'dontNeedVariation' | translate}}</p>
+                  <p><small class="text-danger" *ngIf="errors.variations">{{ 'formValidProductVariation' | translate }}</small></p>
+                </div>
+                <div *ngIf="!editing" style="width: 120px;" class="mr-2" (click)="steps = 1">
+                  <div class="k-button k-bcolor-1 mt-2">
+                    <span> {{'back' | translate}} </span>
+                  </div>
+                </div>
+                <div style="width: 120px;" (click)="changeStep(3)">
+                  <div class="k-button k-bcolor-2 mt-2">
+                    <span> {{'next' | translate}} </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-scrollbar>
+        </div>
+
+        <!-- Combinations -->
+        <div *ngIf="steps === 3" class="pt-4 pb-4 h-100 d-flex justify-content-center align-items-start flex-column">
+          <ng-scrollbar class="w-100 scrollProducts" track="all" #scrollable>
+            <div class="pr-3 pl-2 zoneHeight">
+              <div class="col-12 d-flex justify-content-start align-items-center">
+                <p class="mb-0 mr-4 display-1" style="font-size: 16pt;"> {{'productCreationTitle3' | translate}} </p>
+                <div (click)="helpActive = !helpActive" class="helpIcon">
+                  <i class="icofont icofont-question-circle"></i>
+                </div>
+              </div>
+
+              <p style="font-size: 10pt;">{{'textProductCreation3' | translate}}</p>
+              <div class="w-100 mt-4 d-flex justify-content-center align-items-start flex-column">
+
+                <div class="containerVariations">
+                  <div class="variationsContainer row" *ngFor="let data of variationsCombinations">
+                    <div class="col-sm-4">
+                      <p class="mb-0" *ngFor="let option of data">
+                        <span>{{option.name}}</span>
+                        <span *ngIf="option.value">: {{option.value}}</span>
+                      </p>
+                    </div>
+                    <div class="col-sm-4 mb-3 d-flex justify-content-start align-items-center">
+                      <p class="mb-0 mr-2 ">$</p>
+                      <app-k-input [mask]="'separator.3'" [(model)]="data.price" [inputtype]="'text'" [text]="'formPrice'">
+                      </app-k-input>
+                    </div>
+                    <div class="col-sm-1 col-2 mb-3 align-items-center d-flex">
+                      <i (click)="data.show = !data.show" [ngStyle]="{'color': data.show? '#6D40F3': '#868686'}"
+                        style="font-size: 14pt; cursor: pointer;" class="icofont"
+                        [ngClass]="{'icofont-eye': data.show, 'icofont-eye-blocked': !data.show}"></i>
+                    </div>
+                    <div class="col-sm-3 col-10 mb-3 align-items-center d-flex">
+                      <app-k-input [mask]="'0*'" [(model)]="data.quantity" [inputtype]="'text'" [text]="'quantity'">
+                      </app-k-input>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="w-100 d-flex justify-content-end align-items-center">
+
+                <div class="mr-2">
+                  <p *ngIf="errors.combinationPrice" class="mb-0"><small class="text-danger">{{ 'formValidCombinationPrice' | translate }}</small></p>
+                  <p *ngIf="errors.combinationQuantity" class="mb-0"><small class="text-danger">{{ 'formValidCombinationQuantity' | translate }}</small></p>
+                </div>
+
+                <div *ngIf="!editing" style="width: 120px;" class="mr-2" (click)="steps = 2">
+                  <div class="k-button k-bcolor-1 mt-2">
+                    <span> {{'back' | translate}} </span>
+                  </div>
+                </div>
+                <div *ngIf="!editing" style="width: 120px;" (click)="changeStep(4)">
+                  <div class="k-button k-bcolor-2 mt-2">
+                    <span> {{'next' | translate}} </span>
+                  </div>
+                </div>
+                <div *ngIf="editing" style="width: 120px;" (click)="saveEdition(3)">
+                  <div class="k-button k-bcolor-3 mt-2">
+                    <span> {{'save' | translate}} </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-scrollbar>
+
+        </div>
+
+        <!-- Images -->
+        <div *ngIf="steps === 4" class="pt-4 pb-4 h-100   d-flex justify-content-center align-items-start flex-column">
+          <ng-scrollbar class="w-100 scrollProducts" track="all" #scrollable>
+            <div class="pr-3 pl-2 zoneHeight">
+              <div class="col-12 d-flex justify-content-start align-items-center">
+                <p class="mb-0 mr-4 display-1" style="font-size: 16pt;"> {{'productCreationTitle4' | translate}} </p>
+                <div (click)="helpActive = !helpActive" class="helpIcon">
+                  <i class="icofont icofont-question-circle"></i>
+                </div>
+              </div>
+
+              <p style="font-size: 10pt;">{{'textProductCreation4' | translate}}</p>
+
+              <div *ngIf="!cropperActive" class="d-flex justify-content-center align-items-start moveImages">
+                <div class="mt-1">
+                  <div class="m-1 imageContainerSelectBig">
+                    <i *ngIf="!selectImages[0].image" class="m-0 icofont icofont-camera"></i>
+                    <span *ngIf="!selectImages[0].image">{{'AddImageSmall' | translate}} {{0 + 1}}</span>
+                    <input *ngIf="!selectImages[0].image" (change)="changeImageFile(0, $event.target.files)" type="file"
+                      style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                    <img *ngIf="selectImages[0].image" [src]="selectImages[0].image" alt="" srcset="">
+                    <div class="minusIcon" *ngIf="selectImages[0].image" (click)="selectImages[0].image = ''">
+                      <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class=" d-flex justify-content-center align-items-start flex-wrap mt-1">
+
+                  <div class=" " *ngFor="let image of selectImages; let i = index">
+                    <div *ngIf="!(i===0)" class="m-1  imageContainerSelectSmall">
+                      <i *ngIf="!image.image" class="m-0 icofont icofont-camera"></i>
+                      <span *ngIf="!image.image">{{'AddImageSmall' | translate}} {{i + 1}}</span>
+                      <input *ngIf="!image.image" (change)="changeImageFile(i, $event.target.files)" type="file"
+                        style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                      <img *ngIf="image.image" [src]="image.image" alt="" srcset="">
+                      <div class="minusIcon" *ngIf="image.image" (click)="image.image = ''">
+                        <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="cropperActive" class="w-100 d-flex flex-column justify-content-center align-items-center">
+                <image-cropper [imageFile]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+                  [resizeToWidth]="1200" [resizeToHeight]="1200" format="png" (imageCropped)="imageCropped($event)">
+                </image-cropper>
+                <div (click)="cropperActive = false" class="activeCamera">
+                  <i class="icofont icofont-camera"></i>
+                </div>
+              </div>
+
+
+              <div *ngIf="!cropperActive" class="w-100 d-flex justify-content-end align-items-center">
+                <div class="mr-2">
+                  <small *ngIf="errors.photos" class="text-danger">{{ 'formValidPhotos' | translate }}</small>
+                </div>
+                <div *ngIf="!editing" style="width: 120px;" class="mr-2" (click)="steps=3">
+                  <div class="k-button k-bcolor-1 mt-2">
+                    <span> {{'back' | translate}} </span>
+                  </div>
+                </div>
+                <div style="width: 120px;" (click)="(editing) ? saveEdition(4) : saveItem()">
+                  <div class="k-button k-bcolor-3 mt-2">
+                    <span> {{'save' | translate}} </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </ng-scrollbar>
+        </div>
+
+        <!-- <div *ngIf="steps === 100" class="h-100  w-100 position-relative">
+                    <div class="h-100 w-100">
+                        <image-cropper
+                            [imageFile]="imageChangedEvent"
+                            [maintainAspectRatio]="true"
+                            [aspectRatio]="imageChangedRatio"
+                            [resizeToWidth]="1127"
+                            [resizeToHeight]="2008"
+                            format="png"
+                            (imageCropped)="imageCropped($event)"
+                            ></image-cropper>
+                    </div>
+                    <div class="mt-0 mb-2" style="width: 220px; position: absolute;" >
+                        <div class="k-button k-bcolor-2 mt-2 pull-right" (click)="steps = 3" >
+                            <span> {{'Ok' | translate}} </span>
+                        </div>
+                    </div>
+                </div> -->
+      </div>
+    </div>
+  </div>
+
+  <ngx-loading [show]="loading"></ngx-loading>
+</div>

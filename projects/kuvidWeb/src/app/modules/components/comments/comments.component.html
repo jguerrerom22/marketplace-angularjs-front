@@ -1,0 +1,45 @@
+<div class="containerComments" >
+    <div class="tituloZona">
+        <p class="ml-3 mt-1 mb-0 titleZone" style="font-weight: bold;">{{'comentarios' | translate}}</p>
+    </div>
+    <div class="d-flex justify-content-center align-items-center flex-column" [ngStyle]="{'height': (reviews.length)? '0px': '120px'}">
+        <p *ngIf="!reviews.length">{{'gofirstcomment' | translate}} </p>
+    </div>
+    <cdk-virtual-scroll-viewport itemSize="100" class="mt-3 contenedorComments" [ngStyle]="{'height': (reviews.length)? '300px': '0px'}">
+        <div class="mb-3 d-flex justify-content-start align-items-start" *cdkVirtualFor="let comment of reviews">
+            <div class="userCont ml-2 mr-3">
+                <img [src]="comment.user.profilePicture" class="w-100" alt="">
+            </div>
+            <div class="w-100">
+                <div class="pr-3 d-flex justify-content-between align-items-center">
+                    <div class="userZone">
+                        <span>{{comment.user.firstName + ' ' + comment.user.lastName}}</span>
+                        <span *ngIf="comment.rate > 0">
+                            <span class="material-icons star-rate" *ngFor="let item of [1,2,3,4,5]" [ngClass]="{'star-muted': item>comment.rate, 'star-active': item<=comment.rate}">grade</span>
+                        </span>
+                    </div>
+                    <app-date-format [createdAt]="comment.date"></app-date-format>
+                </div>
+                <pre class="textoP " [innerHTML]="comment.comment"></pre>
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="canAdd">
+        <hr class="mt-0">
+        <div class="px-2">
+            <div class="row">
+                <div class="col-10">
+                    <div class="w-100">   
+                        <textarea id="inputComment" [(ngModel)]="comment"  placeholder="{{'addAComment' | translate}}" class="w-100 textoAreal" rows="3"></textarea>
+                    </div> 
+                </div>
+                <div class="col-2">
+                    <div class="w-100 d-flex justify-content-center align-items-center">
+                        <span *ngIf="loading" class="spinner" style="font-size: 18pt;"><i  class="icofont icofont-spinner-alt-2 colortext"></i></span>
+                        <span  tooltip="Publicar" placement="bottom" *ngIf="idResource && !loading" (click)="create()" style="font-size: 24pt; cursor: pointer;"  ><i  class="icofont icofont-paper-plane colortext"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

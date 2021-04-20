@@ -1,0 +1,201 @@
+<app-header></app-header>
+<div style="padding-top: 50px;" class=" containerStudio d-flex justify-content-start align-items-center">
+    <div class="containerMenu">
+        <div class="mt-3">
+            <app-menu-studio></app-menu-studio>
+        </div>
+    </div>
+    <div class="containerSettings">
+        <ng-scrollbar class="w-100 scrollGeneral" track="all" #scrollable>
+            <app-select-user></app-select-user>
+            <div class="mx-4 d-flex studioTittle justify-content-start align-items-center">
+                <i class="icofont icofont-settings mr-2 mb-0 colortext"></i>
+                <p class="m-0 colortext mr-5" style="font-size: 18pt;"> {{'usersettings' | translate}} </p>
+            </div>
+            <div class="selectMenu mx-4 d-flex justify-content-start align-items-center">
+                <div [ngClass]="{'selectedMenu colortext': selected === 1}" (click)="selected = 1">
+                    <p class="noselect">{{'mydata' | translate}}</p>
+                    <div class="selector"></div>
+                </div>
+                <div [ngClass]="{'selectedMenu colortext': selected === 2}" (click)="selected = 2">
+                    <p class="noselect">{{'storeData' | translate}}</p>
+                    <div class="selector"></div>
+                </div>
+            </div>
+             <!-- Cancel and save buttons -->
+            <div  *ngIf="selected === 1 && canSave" class="my-4 toolsBar ">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <p class="mb-0" style="font-size: 11pt;">{{'saveDataAccount' | translate}}</p>
+                    </div>
+                    <div class="col-sm-6 d-flex justify-content-end align-items-center">
+                        <div class="mx-2" (click)="cancel()"  style="width: 120px;" >
+                            <div class="k-button k-bcolor-1 mt-2">
+                              <span class="noselect"> {{'cancel' | translate}} </span>
+                            </div>
+                        </div>
+                        <div class="mx-2" (click)="openChangeForm()"  style="width: 120px;" >
+                            <div class="k-button k-bcolor-2 mt-2">
+                              <span class="noselect"> {{'save' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 d-flex justify-content-end align-items-center">
+                        <span *ngIf="emptyFields" class="my-2 mr-3 text-danger">{{ 'emptyFields' | translate }}</span>
+                        <span *ngIf="!passwordEqual" class="text-danger">{{ 'passwordsNotMatch' | translate }}</span>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div *ngIf="selected === 1" class="my-4 pb-4 toolsBar" >
+                <p class="px-4 display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'myDataAccount' | translate}} </p>
+                <!-- Profile picture -->
+                <div class="divider row">
+                    <div class="col-sm-2 col-12 my-1">
+                        <p class="tittleDivisor">{{'profilePicture' | translate}}</p>
+                    </div>
+                    <div class="col-sm-10 col-12 my-1">
+                        <div class="imageContainerSelect my-2 text-center" style="height: 150px; width: 150px;" >
+                            <i *ngIf="!profilePicture" class="m-0 icofont icofont-camera"></i>
+                            <span *ngIf="!profilePicture">{{ 'formAddLogo' | translate }}</span>
+                            <input *ngIf="!profilePicture" (change)="changeImageFile('logo',$event.target.files)" type="file"
+                              style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                            <img *ngIf="profilePicture" [src]="profilePicture" alt="" srcset="">
+                            <div class="minusIcon" *ngIf="profilePicture" (click)="profilePicture=undefined">
+                              <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <ng-container *ngFor="let item of dataAccountEdition; let i = index ">
+                    <div *ngIf="i < 3"  class="divider row" >
+                        <div class="col-sm-2 col-12 my-1">
+                            <p class="tittleDivisor">{{ item.type | translate}}</p>
+                        </div>
+                        <div class="col-sm-9 col-10 my-1" *ngIf="item.type!=='password'">
+                            <p *ngIf="!item.edit">{{ item.content }}</p>
+                            <app-k-input *ngIf="item.edit" [(model)]="item.content" [text]="'new ' + item.type"></app-k-input>
+                        </div>
+                        <div class="col-sm-9 col-10 my-1" *ngIf="item.type==='password'">
+                            <p *ngIf="!item.edit">********</p>
+                            <app-k-input *ngIf="item.edit" [(model)]="item.content" [text]="'new ' + item.type" [inputtype]="'password'"></app-k-input>
+                            <div class="mt-4">
+                                <app-k-input *ngIf="item.edit" [(model)]="repeatPassword" [text]="'repeatPassword'" [inputtype]="'password'"></app-k-input>
+                                <span *ngIf="!passwordEqual" class="text-danger">{{ 'passwordsNotMatch' | translate }}</span>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <i [ngStyle]="{'opacity': item.edit? '0': '1'}" (click)="item.edit = true; canSave = true;"  style="cursor: pointer;" class="ml-auto icofont icofont-edit"></i>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!--  LOS DEMAS DATOS-->
+            <div *ngIf="selected === 1" class="mt-4  pb-4 toolsBar" style="margin-bottom: 60px;">
+                <p class="px-4 display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'myDataInfo' | translate}} </p>
+                <ng-container *ngFor="let item of dataAccountEdition; let i = index  ">
+                    <div *ngIf="i >= 3" class="divider row" >
+                        <div class="col-sm-2 col-12 my-1">
+                            <p class="tittleDivisor">{{item.type | translate}}</p>
+                        </div>
+                        <div class="col-sm-9 col-10 my-1">
+                            <p *ngIf="!item.edit">{{item.content}}</p>
+                            <app-k-input *ngIf="item.edit" [(model)]="item.content" [text]="'new ' + item.type"></app-k-input>
+                        </div>
+                        <div class="col-1">
+                            <i *ngIf="!(item.type === 'email')" [ngStyle]="{'opacity': item.edit? '0': '1'}" (click)="item.edit = true; canSave = true;" style="cursor: pointer;" class="ml-auto icofont icofont-edit"></i>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+
+            <div *ngIf="selected === 2" class="mt-4  pb-4 toolsBar" style="margin-bottom: 60px;">
+                <p class="px-4 display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'myAddresses' | translate}} </p>
+                <ng-container *ngFor="let address of shipping; let i = index  ">
+                    <div  class="divider row" >
+                        <div class="col-sm-4 col-12">
+                            <p class="tittleDivisor">{{'address' | translate}}</p>
+                            <p >{{address.address}}</p>
+                        </div>
+                        <div class="col-sm-4 col-12">
+                            <p class="tittleDivisor">{{'contatc' | translate}}</p>
+                            <p>{{address.name}}</p>
+                        </div>
+                        <div class="col-sm-3 col-10">
+                            <p class="tittleDivisor">{{'city' | translate}}</p>
+                            <p>{{address.city.name}}</p>
+                        </div>
+                        <div class="col-1">
+                            <i (click)="openAddressForm(address)"  style="cursor: pointer;" class="ml-auto icofont icofont-edit"></i>
+                            <i (click)="deleteAddress(address._id)"  style="cursor: pointer;" class="ml-3 icofont icofont-trash"></i>
+                        </div>
+                    </div>
+                </ng-container>
+                <a (click)="openAddressForm()" class="colortext ml-5 mt-5" href="javascript: void(0)"><i class="icofont icofont-plus"></i> {{ 'newAddress' | translate }}</a>
+            </div>
+
+            <div *ngIf="selected === 2" class="mt-4  pb-4 toolsBar" style="margin-bottom: 60px;">
+                <p class="px-4 display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'myCreditCards' | translate}} </p>
+                <ng-container *ngFor="let creditCard of creditCards; let i = index  ">
+                    <div  class="divider row" >
+                        <div class="col-sm-4 col-12">
+                            <p class="tittleDivisor">{{creditCard.franchise | translate}}</p>
+                        </div>
+                        <div class="col-sm-7 col-10">
+                            <p>**** **** **** {{ creditCard.mask.substring(creditCard.mask.length-4, creditCard.mask.length) }}</p>
+                        </div>
+                        <div class="col-1">
+                            <i (click)="deleteCreditCard(creditCard._id)" style="cursor: pointer;" class="ml-auto icofont icofont-trash"></i>
+                        </div>
+                    </div>
+                </ng-container>
+                <a (click)="openCreditCardForm()" class="colortext ml-5" href="javascript: void(0)" ><i class="icofont icofont-plus"></i> {{ 'newCreditCard' | translate }}</a>
+            </div>
+
+
+
+        </ng-scrollbar>
+    </div>
+</div>
+
+<ng-template #Change>
+    <app-change-form (close)="modalRef.hide()" (save)="saveAll($event)" [data]="dataModalChange"></app-change-form>
+    <div *ngIf="errorPassword" class="col-sm-12 mb-3 d-flex justify-content-center align-items-center">
+        <span class="text-danger">{{ 'passwordIncorrect' | translate }}</span>
+    </div>
+    <ngx-loading [show]="loading"></ngx-loading>
+</ng-template>
+
+<ng-template #addressForm>
+    <app-address-form (close)="endModalAddress($event)" [initialShippingData]="shippingDataEdition"></app-address-form>
+</ng-template>
+
+<ng-template #creditCardForm>
+    <app-credit-card-form (close)="endModalCreditCard($event)"></app-credit-card-form>
+</ng-template>
+
+
+<ng-template #imageCropper>
+    <div class="modal-content p-0" style="border: 0px;">
+        <div class="modal-body position-relative w-100 p-0 d-flex justify-content-center align-items-center flex-column">
+            <div (click)="modalRef.hide()" class="iconoClose2">
+                <i class="icofont icofont-close icofont-2x"></i>
+            </div>
+                <div class="" style="height: 300px;">
+                <image-cropper [imageFile]="imageChangedEvent" [maintainAspectRatio]="true"
+                  [aspectRatio]="imageChangedRatio" [resizeToWidth]="1127" [resizeToHeight]="2008" format="png"
+                  (imageCropped)="imageCropped($event)"></image-cropper>
+              </div>
+              <div class="mt-0 mb-2" style="width: 220px;">
+                <div class="k-button k-bcolor-2 mt-2 pull-right" (click)="saveProfilePicture()">
+                  <span> {{'Ok' | translate}} </span>
+                </div>
+              </div>
+        </div>
+    </div>
+    <ngx-loading [show]="loading"></ngx-loading>
+</ng-template>

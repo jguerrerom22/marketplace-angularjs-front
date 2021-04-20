@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-sm-9">
+        <div class=" position-relative">
+            <owl-carousel *ngIf="banners.length" #owlElement [options]="{items: 1, dotsContainer: '.dotscontenedor', loop: true, nav: false, autoplay: true, autoplayTimeout: 6000}"  [carouselClasses]="['owl-theme', 'sliding']" >
+                <div class=" item w-100 " *ngFor="let banner of banners | slice:0:3">
+                    <div class="crowimage">
+                            <img class="w-100 m-0" [src]="banner.mediaUrl" alt="" [routerLink]="banner.link">
+                    </div>          
+                </div>
+            </owl-carousel>
+            <div class="dotscontenedor d-flex justify-content-center align-items-center">
+                <div (click)="irposicion(0)" class="mx-2 dot active" data='0' ></div>
+                <div (click)="irposicion(1)" class="mx-2 dot" data="1"></div>
+                <div (click)="irposicion(2)" class="mx-2 dot" data="2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <img *ngIf="lateralBanner" class="w-100 onlyWeb h-100" [src]="lateralBanner.mediaUrl" [routerLink]="lateralBanner.link" alt="">
+    </div> 
+</div>
+

@@ -1,0 +1,78 @@
+<div class="modal-content p-0 overflow-auto" style="border: 0px;">
+    <div class="modal-body w-100 p-0 d-flex justify-content-center align-items-center">
+        <div class="imageSelect w-100 position-relative">
+            <div style="right: 20px;" class="iconoClose" (click)="closeModal()">
+                <i class=" icofont icofont-close"></i>
+            </div>
+            <div *ngIf="step === 1" class="d-flex h-100 justify-content-center align-items-center">
+                <div *ngIf="editing===false" class=" leftZone p-2 justify-content-start align-items-center flex-column">
+                    <h4 class="mb-0 mt-2 display-1" style="font-size: 18pt;">{{'PostCreate' | translate}}</h4>
+                    <div class="w-100 ml-4 containerFunction" style="height: 80%;">
+                        <ng-scrollbar>
+                                <p class="mb-1  text-center" style="font-size: 10pt;">
+                                    {{'modalStoryText4' | translate}}
+                                </p>
+                                <div  class="imageContainerSelect my-2 align-items-md-center" *ngFor="let image of selectImages; let i = index" style="margin-left: auto; margin-right: auto;">
+                                    <i *ngIf="!image.image" class="m-0 icofont icofont-camera"></i>
+                                    <span *ngIf="!image.image">{{'AddImage' | translate}} {{i + 1}}</span>
+                                    <input  *ngIf="!image.image" (change)="changeImageFile(i, $event.target.files)" type="file" style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                                    <img *ngIf="image.image" [src]="image.image" alt="" srcset="">
+                                    <div class="minusIcon" *ngIf="selectImages.length > 1" (click)="removeImage(i)">
+                                        <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="textboton text-center" (click)=" addImage()" *ngIf="selectImages.length < 3">
+                                    <p class=" colortext"> <i class="icofont icofont-plus"></i> {{'AddImage' | translate}}</p>
+                                </div>
+                                
+                        </ng-scrollbar>
+                    </div>
+                </div>
+                <div class="overflow-hidden rigthZone d-flex justify-content-center align-items-center">
+                    <div class="zonePost mt-1" *ngIf="galeryActive" [ngClass]="{'w-90': editing}">
+                        <div class="p-2 mt-3">
+                            <div class="mt-1" style="width: 100%;">
+                                <app-k-textarea [rows]="3" [(model)]="textPost" [text]="'storyText'"></app-k-textarea>
+                            </div>
+                            <div  class="mt-0" style="width: 100%;">
+                                <emoji-mart (emojiClick)="addEmoji($event)" [showPreview]="false" [darkMode]="false" [style]="{ width: '100%', bottom: '20px', right: '20px' }"
+                                    [i18n]="{ search: 'Buscar', categories: { search: 'Resultado de la búsqueda', recent: 'Recientes' } }"></emoji-mart>
+                            </div>
+                        </div>
+
+                        <div class="pull-left" style="width: 220px;" *ngIf="editing" (click)="goToPost()">
+                            <div class="k-button k-bcolor-1 mt-2" >
+                                <span> {{'goToPost' | translate}} </span>
+                            </div>
+                        </div>
+                        <div class="pull-right" style="width: 220px;" (click)="savePost()">
+                            <div class="k-button k-bcolor-2 mt-2" >
+                                <span *ngIf="!editing"> {{'PostCreate' | translate}} </span>
+                                <span *ngIf="editing"> {{'PostEdit' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="step === 2" class="h-100 position-relative">
+                <div class="h-100">
+                    <image-cropper
+                    [imageFile]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="3 / 2"
+                    [resizeToWidth]="1127"
+                    [resizeToHeight]="2008"
+                    format="png"
+                    (imageCropped)="imageCropped($event)"
+                        ></image-cropper>
+                </div>
+                <div class="" style="width: 220px; position: absolute; right: 20px; bottom: 10px;" >
+                    <div class="k-button k-bcolor-2 mt-2" (click)="step = 1" >
+                        <span> {{'Ok' | translate}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ngx-loading [show]="loading"></ngx-loading>
+</div>

@@ -1,0 +1,148 @@
+<div class="modal-content p-0 overflow-auto" style="border: 0px;">
+  <div class="modal-body w-100 p-0 d-flex justify-content-center align-items-center">
+    <div class="left-zone">
+      <img style="width: 100%; height: 100%;" src="assets/images/BannerAccounts.png" alt="">
+    </div>
+    <div class="rigth-zone">
+      <div (click)="closeModal()" class="iconoClose">
+        <i class="icofont icofont-close icofont-2x"></i>
+      </div>
+      <div class="stepsForm positionStepForm">
+        <div class="backLineFormCreate"></div>
+        <div [ngStyle]="{'height': (steps === 1)? '0px': ((steps===2)? '80px' : '160px')}" class="lineaFormCreate">
+        </div>
+        <div style="background-color:#6D40F3; top: 0px;" class="stepOneForm"></div>
+        <div [ngStyle]="{'background-color': (steps > 1)? '#6D40F3': '#e0e0e0'}" class="stepOneForm" style="top: 80px;">
+        </div>
+        <div [ngStyle]="{'background-color': (steps > 2)? '#6D40F3': '#e0e0e0'}" class="stepOneForm"
+          style="top: 160px;"></div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-center align-items-start flex-column">
+          <p class=" display-1" style="font-size: 16pt;"> {{'companyAccountCreation' | translate}} </p>
+        </div>
+        <div *ngIf="steps === 1" class="col-12 d-flex justify-content-center align-items-start flex-column">
+          <p style="font-size: 10pt;">{{'textCompanyCreation' | translate}}</p>
+          <div class="w-100 mt-4">
+            <app-k-input [(model)]="company.name" [inputtype]="'text'" [text]="'companyname'"></app-k-input>
+            <small class="text-danger" *ngIf="errors.name">{{ 'formValidName' | translate }}</small>
+          </div>
+          <div class="w-100 mt-4">
+            <app-k-input [(model)]="company.slogan" [inputtype]="'text'" [text]="'slogan'"></app-k-input>
+          </div>
+          <div class="w-100 mt-4">
+            <app-k-textarea [(model)]="company.description" [text]="'description'"></app-k-textarea>
+            <small class="text-danger" *ngIf="errors.description">{{ 'formValidDescription' | translate }}</small>
+          </div>
+          <div class="w-100 d-flex justify-content-end align-items-center">
+            <div style="width: 120px;" (click)="changeStep(2)">
+              <div class="k-button k-bcolor-2 mt-2">
+                <span> {{'next' | translate}} </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div *ngIf="steps === 2" class="col-12 d-flex justify-content-center align-items-start flex-column">
+          <p style="font-size: 10pt;">{{'textCompanyCreation2' | translate}}</p>
+          <div class="w-100 mt-4">
+            <input [(ngModel)]="company.selectedValue" [typeahead]="cities" typeaheadOptionField="name" adaptivePosition="true"
+              (typeaheadOnSelect)="onSelect($event)" [typeaheadItemTemplate]="customItemTemplate" placeholder="Ciudad"
+              class="form-control">
+            <ng-template #customItemTemplate let-model="item">
+              <span>{{model.name}}, {{model.stateName}}</span>
+            </ng-template>
+            <small class="text-danger" *ngIf="errors.city">{{ 'formSelectCity' | translate }}</small>
+          </div>
+          <div class="w-100 mt-4">
+            <app-k-input [(model)]="company.address" [inputtype]="'text'" [text]="'address'"></app-k-input>
+            <small class="text-danger" *ngIf="errors.address">{{ 'formValidAddress' | translate }}</small>
+          </div>
+          <div class="w-100 mt-4">
+            <app-k-input [(model)]="company.phone" [inputtype]="'text'" [text]="'phoneContact'"></app-k-input>
+            <small class="text-danger" *ngIf="errors.phone">{{ 'formValidPhone' | translate }}</small>
+          </div>
+          <div class="w-100 mt-4">
+            <app-k-input [(model)]="company.email" [inputtype]="'text'" [text]="'correo'"></app-k-input>
+            <small class="text-danger" *ngIf="errors.email">{{ 'formValidEmail' | translate }}</small>
+          </div>
+          <div class="w-100 d-flex justify-content-end align-items-center">
+            <div style="width: 120px;" class="mr-2" (click)="steps = 1">
+              <div class="k-button k-bcolor-1 mt-2">
+                <span> {{'back' | translate}} </span>
+              </div>
+            </div>
+            <div style="width: 120px;" (click)="changeStep(3)">
+              <div class="k-button k-bcolor-2 mt-2">
+                <span> {{'next' | translate}} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="steps === 3" class="col-12 d-flex justify-content-start align-items-start flex-column">
+          <p style="font-size: 10pt;">{{'textCompanyCreation4' | translate}}</p>
+          <div class="w-100">
+            <div class="row">
+              <div class="col-md-7">
+                <div class="imageContainerSelect my-2" style="width: 100%">
+                  <i *ngIf="!company.cover" class="m-0 icofont icofont-camera"></i>
+                  <span *ngIf="!company.cover">{{ 'formAddCoverPicture' | translate }}</span>
+                  <input *ngIf="!company.cover" (change)="changeImageFile('cover',$event.target.files)" type="file"
+                    style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                  <img *ngIf="company.cover" [src]="company.cover" alt="" srcset="">
+                  <div class="minusIcon" *ngIf="company.cover" (click)="company.cover=undefined">
+                    <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="imageContainerSelect my-2 text-center" style="width: 100%">
+                  <i *ngIf="!company.logo" class="m-0 icofont icofont-camera"></i>
+                  <span *ngIf="!company.logo">{{ 'formAddLogo' | translate }}</span>
+                  <input *ngIf="!company.logo" (change)="changeImageFile('logo',$event.target.files)" type="file"
+                    style="cursor: pointer; opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" />
+                  <img *ngIf="company.logo" [src]="company.logo" alt="" srcset="">
+                  <div class="minusIcon" *ngIf="company.logo" (click)="company.logo=undefined">
+                    <i style="font-size: 8pt;" class="icofont icofont-minus"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <small class="text-danger" *ngIf="errors.logo">{{ 'textCompanyCreation5' | translate }}</small>
+              <small class="text-danger" *ngIf="errorGeneral">{{ 'notCorrectFields' | translate }}</small>
+            </div>
+          </div>
+          <div class="mt-auto w-100 d-flex justify-content-end align-items-center">
+            <div style="width: 120px;" class="mr-2" (click)="steps = 2">
+              <div class="k-button k-bcolor-1 mt-2">
+                <span> {{'back' | translate}} </span>
+              </div>
+            </div>
+            <div style="width: 120px;" (click)="changeStep(0)">
+              <div class="k-button k-bcolor-3 mt-2">
+                <span> {{'save' | translate}} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picture Cropper -->
+        <div *ngIf="steps === 100" class="h-100  w-100 position-relative">
+          <div class="h-100 w-100">
+            <image-cropper [imageFile]="imageChangedEvent" [maintainAspectRatio]="true"
+              [aspectRatio]="imageChangedRatio" [resizeToWidth]="1127" [resizeToHeight]="2008" format="png"
+              (imageCropped)="imageCropped($event)"></image-cropper>
+          </div>
+          <div class="mt-0 mb-2" style="width: 220px; position: absolute;">
+            <div class="k-button k-bcolor-2 mt-2 pull-right" (click)="steps = 3">
+              <span> {{'Ok' | translate}} </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ngx-loading [show]="loading"></ngx-loading>
+</div>

@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-center align-items-center flex-column">
+    <div class="d-flex justify-content-start align-items-center">
+        <div *ngIf="!userlog.getUser().profilePicture"  class="userNoIconBig  d-flex justify-content-center align-items-center" style="background: #6D40F3;" [ngStyle]="{ 'background': 'linear-gradient(0deg,' +userlog.coloresLogo.first + '0%, ' +userlog.coloresLogo.second+' 50%, '+ userlog.coloresLogo.third +' 100%)'}">
+            <span> {{userlog.getUser().firstName.substring(0, 1)}} </span>
+        </div>
+        <img *ngIf="userlog.getUser().profilePicture" [src]="userlog.getUser().profilePicture" alt="" class="userImage">
+        <div class="ml-3">
+            <p class="m-0">{{userlog.getUser().firstName + ' ' + userlog.getUser().lastName}}</p>
+        </div>
+    </div>
+    <div class="w-100" *ngFor="let sector of menuData">   
+        <div class="divisor"></div>
+        <div *ngFor="let item of sector.menu" [routerLink]="item.route" class="w-100 pl-4  py-2 menuItem mt-2 d-flex justify-content-start align-items-center">
+            <i [ngClass]="{'colortext': (item.route === router.url)}"  class="icofont {{item.icon}}"></i>
+            <p [ngClass]="{'colortext': (item.route === router.url)}" class="mb-0 ml-3">{{item.name | translate}}</p>
+        </div>
+    </div>
+</div>
+
+
+

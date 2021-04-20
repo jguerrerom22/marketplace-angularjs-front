@@ -1,0 +1,65 @@
+.fondoTienda
+    background-color: white
+    border: 1px solid #DBDBDB
+    border-radius: 5px
+
+.itemsCollection
+    display: grid
+    grid-auto-columns: max-content
+    grid-auto-flow: dense
+    grid-auto-rows: minmax(100px, auto)
+    grid-gap: 25px
+    grid-template-columns: repeat(3, 1fr)
+    margin: 60px auto
+    max-width: 800px
+
+.crowimage
+    background-color: #090909
+    height: 220px
+    width: 100%
+    border-radius: 7px
+    overflow: hidden
+    cursor: pointer
+    img 
+        object-fit: cover
+        width: 100%
+        height: 100%  
+
+.userCont
+    position: absolute
+    width: 50px
+    height: 50px
+    top: -5px
+    left: 4px
+    background-color: #EBEBEB
+    border: 1px solid #6D40F3
+    border-radius: 10px
+    overflow: hidden
+    img 
+        height: 100%
+        width: 100%
+
+.userInfo
+    padding-left: 60px
+
+.companieZone
+    margin-top: 10px
+    position: relative
+    width: 100%                
+
+.itemContainer
+    border: 1px solid #EEEEEE
+    border-radius: 10px
+    background-color: #FFFFFF
+    padding: 0px 9px 10px 9px
+    &:hover
+        opacity: 0.9
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important
+        cursor: pointer  
+
+.precio 
+    height: 44px
+    width: 106px
+    right: 11px
+    span
+        font-size: 14pt

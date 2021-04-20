@@ -1,0 +1,77 @@
+.containerStudio
+    height: 100vh
+    width: 100vw
+
+.containerNew
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+    margin: 
+        top: 30px
+        bottom: 50px
+        left: 30px
+    overflow: hidden
+    width: 250px
+    height: 400px
+    border-radius: 10px
+    background-color: white
+    transition: 0.2s
+    cursor: pointer
+    &:hover
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+        -webkit-transform: scale(1.05)
+        -ms-transform: scale(1.05)
+        transform: scale(1.05)
+    &:active
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+        -webkit-transform: scale(1)
+        -ms-transform: scale(1)
+        transform: scale(1)
+
+.companyItem 
+    position: relative
+    h4 
+        font-size: 16pt
+
+.NewCompanie
+    &:hover
+        background-color: #f8f8f8
+        
+.imageContainer
+    margin-top: 20px
+    height: 70px
+    width: 70px
+    background-color: gray
+    border-radius: 100%
+
+.companieCarousel
+    position: relative
+    max-width: 1200px
+    margin-left: 10px
+    margin-right: 10px
+  
+.bannerContainer
+    height: 70px
+    width: 100%
+    background-color: #ff3535
+
+
+.scrollGeneral
+    --scrollbar-color: #6D40F3
+    --scrollbar-thumb-color: #6D40F3
+    --scrollbar-container-color: #6D40F3
+
+
+@media (max-width: 1200px)
+    .companieCarousel
+        max-width: 800px
+
+@media (max-width: 760px)
+    .companieCarousel
+        max-width: 700px
+
+@media (max-width: 450px)
+    .companieCarousel
+        max-width: 450px
+
+@media (max-width: 360px)
+    .companieCarousel
+        max-width: 360px

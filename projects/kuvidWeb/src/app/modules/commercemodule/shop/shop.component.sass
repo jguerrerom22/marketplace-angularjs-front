@@ -1,0 +1,144 @@
+.userCont
+    position: absolute
+    width: 80px
+    height: 80px
+    top: 150px
+    margin: auto
+    background-color: #EBEBEB
+    border: 3px solid #6D40F3
+    border-radius: 40px
+    overflow: hidden
+    img 
+        height: 100%
+        width: 100%
+
+.companyZone
+    position: relative
+    height: 200px
+    width: 100%
+
+.imagenCont
+    background-color: #6c6c6c
+    width: 100%
+    height: 100%
+    border-radius: 0px 0px 10px 10px 
+    overflow: hidden
+    img 
+        width: 100%
+        height: 100%
+
+.divCategory
+    padding: 5px 20px
+    border: 1px solid #CCC
+    border-radius: 5px
+    background: white
+    cursor: pointer
+    :hover
+        background: #EEEEEE
+
+.crowimage
+    background-color: #090909
+    border-radius: 7px
+    overflow: hidden
+    cursor: pointer
+    img 
+        width: 100%
+        height: 100%
+        &:hover
+            opacity: 0.8
+
+.itemContainer
+    border: 1px solid #EEEEEE
+    border-radius: 10px
+    background-color: #FFFFFF
+    padding: 0px
+    &:hover
+        opacity: 0.9
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important
+        cursor: pointer  
+
+.precio 
+    height: 44px
+    width: 106px
+    right: 11px
+    span
+        font-size: 14pt
+
+.containerImage
+    width: 100%
+    height: 400px
+    background-size: cover
+    margin-bottom: 200px
+
+.containerComments
+    width: 100%
+    max-width: 800px
+
+.containerInfo
+    background-color: white
+    border-radius: 20px
+    min-height: 200px
+    width: 90%
+    max-width: 800px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+    position: absolute
+    left: 50%
+    transform: translateX(-50%)
+    bottom: -150px
+    z-index: 3
+    padding: 
+        top: 60px
+        left: 20px
+        right: 20px
+        bottom: 40px
+
+.containerLogo
+    height: 100px
+    width: 100px
+    border-radius: 10px
+    border: 5px solid red
+    overflow: hidden
+    position: absolute
+    left: 10px
+    top: -50px
+    background-color: white
+
+.containerBottonFollow
+    position: absolute
+    right: 160px
+    top: -20px
+    width: 120px
+
+.contReviews
+    margin: 
+        bottom: 40px
+
+.containerFunctions
+    display: flex 
+    justify-content: flex-end
+    position: absolute
+    width: calc( 100% - 10px )
+    right: 10px
+    bottom: 20px
+    margin: 
+        top: auto
+
+@media (max-width: 760px)
+    .contReviews
+        margin: 
+            bottom: 10px
+
+    .crowimage
+        width: 270px
+        height: 270px
+
+    .containerImage
+        height: 200px
+        margin-bottom: 200px
+
+    .containerInfo
+        bottom: -190px
+
+    .containerBottonFollow
+        right: 10px
+        top: -50px

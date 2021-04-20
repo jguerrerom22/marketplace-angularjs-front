@@ -1,0 +1,11 @@
+<div class="w-100 containLocation">
+    <div class="countries">
+        <div class="country d-flex justify-content-center align-items-center" *ngFor="let country of countries">
+            <div class="checkLocation mr-2" (click)="country.selected = !country.selected">
+                <i *ngIf="country.selected" class="icofont icofont-check"></i>
+            </div>
+            <p class="m-0">{{country.name}}</p>
+        </div>
+    </div>
+
+</div>

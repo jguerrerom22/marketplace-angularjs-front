@@ -1,0 +1,68 @@
+<app-header></app-header>
+<div *ngIf="visual"></div>
+<div class="container-fluid" style="padding-top: 50px;">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="containerCateogiras mt-4">
+                <app-categorys [company]="filters.company"></app-categorys>
+            </div>
+            <div class="containerFiltros mt-4">
+                <app-filter-search (filterEvent)="filterPrice($event)"></app-filter-search>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h3 class="pl-md-5 pt-md-4" *ngIf="filters.query">{{filters.query}}</h3>
+            <div *ngIf="filters.company">
+
+                <div class="row" >
+                    <div class="col-12 text-center">
+                        <!-- <img [src]="infoCompany.coverPicture[1].url" alt="" style="object-fit: cover; width: 100%; height: 160px;"> -->
+                        <div [style.background-image]="'url(' + infoCompany.coverPicture[1].url + ')'" style="height: 160px; background-size: cover; margin-bottom: 36px;">
+                            
+                            <div class="text-center" style="bottom: -7px; width: 100%;
+                            position:absolute; ">
+                                <img style="
+                                    border-radius: 45px; 
+                                    border: 3px solid red;
+                                    width: 90px;" [src]="infoCompany.logo[1].url" alt="">
+                                <h4>{{infoCompany.name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="pl-md-5 row" [ngClass]="{'pt-md-2': textSearch, 'pt-md-4': !textSearch}" *ngIf="items.length" infiniteScroll [infiniteScrollDistance]="2"  (scrolled)="callMoreItems()">
+                <div class="col-md-4" *ngFor="let item of items">
+                    <div class="itemContainer mb-2 mt-2 shadow-sm item w-100 position-relative">
+                        <div class="companieZone">
+                            <div class="userCont">
+                                <img [src]="item.company.logo[1].url" alt="">
+                            </div>
+                            <div class="userInfo">
+                                <p class="nombrePost">{{item.company.name}}</p>
+                            </div>
+                        </div>
+                        <div class="crowimage">
+                            <img [routerLink]="['/commerce/product', item._id]" [src]="item.profilePicture[0].url" alt="">
+                        </div>  
+                        <!-- <div style="height: 20px;">
+                            <p>{{item.title}}</p>
+                        </div>  -->
+                        <div class="precio d-flex justify-content-center align-items-center">
+                            <span> {{userlog.currencyFormatter(item.price)}} </span>
+                        </div>       
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pl-md-5 pr-md-5 row" [ngClass]="{'pt-md-2': textSearch, 'pt-md-4': !textSearch}" *ngIf="!items.length">
+                <div class="col-md-12 itemContainer shadow-sm text-center pt-4">
+                    <p class="text-muted"><i class="icofont icofont-search-2" style="font-size: 30pt;"></i></p>
+                    <p class="text-muted">No hay productos en esta categoría</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

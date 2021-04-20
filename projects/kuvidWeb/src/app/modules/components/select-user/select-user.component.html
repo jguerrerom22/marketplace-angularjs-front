@@ -1,0 +1,25 @@
+<div class="position-relative d-inline-block" (click)="activeMenu = true" (clickOutside)="activeMenu = false"> 
+    <p class="ml-3 mt-3" style="cursor: pointer;" ><span class="font-weight-bold">{{'accountChose' | translate}}:</span> {{ accountActived.fullName }} <i class="icofont icofont-simple-down"></i></p>
+    <div class="menuUser p-3" *ngIf="activeMenu">
+        <hr>
+        <div class="">
+            <div class="userMenuSelected   d-flex justify-content-start align-items-center" (click)="setActivedUser()">
+                <span class="ml-2" [ngClass]="{'colortext': user.id === accountActived.id}"> {{ user.name }} </span>
+            </div>
+            <div class="userMenuSelected  d-flex justify-content-start align-items-center" [routerLink]="['/studio/userSettings']">
+                <span class="ml-2">{{ 'createShopWindow' | translate }}</span>
+            </div>
+        </div>
+        <hr class="my-2">
+        <div class="">
+            <div class="mintittle  d-flex justify-content-start align-items-center">
+                <span class="ml-2">{{'myaccounts' |translate}} </span>
+            </div>
+            <div class="userMenuSelected d-flex justify-content-start align-items-center" (click)="setActivedCompany(account)" *ngFor =" let account of accounts">
+                <span class="ml-2" [ngClass]="{'colortext': account.id === accountActived.id}" >{{account.name}} </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+

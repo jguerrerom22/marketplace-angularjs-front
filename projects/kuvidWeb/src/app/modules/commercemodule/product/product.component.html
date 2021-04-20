@@ -1,0 +1,153 @@
+<app-header></app-header>
+<div class=" container-fluid" style="padding-top: 50px;">
+    <div class=" container">
+        <div *ngIf="itemContent" class="row mt-3">
+            <div class="col-md-8 mb-4">
+                <!-- <ngx-gallery  [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery> -->
+                <!-- <gallery [items]="images" thumbPosition="left" thumbMode="free" loadingStrategy="lazy"></gallery> -->
+                <div class="row align-items-center">
+                    <div class="col-md-3 p-0 onlyWeb" [ngStyle]="{'height': (relativeHeight)? relativeHeight: '200px'}" >
+                        <ng-scrollbar class=""  track="all" #scrollable>
+                            <div style="width: 100%;">
+                                <div (click)="imageSelected = image.large" *ngFor="let image of galleryImages" class=" m-2 galleryPreview"><img [src]="image.small" width="100%" /></div>
+                            </div>
+                        </ng-scrollbar>
+                        
+                    </div>
+                    <div class="col-md-8" #contenedor>
+                        <img [src]="imageSelected" width="100%" />
+                    </div>
+                    <div class="col-md-3 p-0 onlyMovil">
+                        <ng-scrollbar   track="all" #scrollable>
+                            <div style="height: 100%;" class=" d-flex align-items-start">
+                                <div (click)="imageSelected = image.large" *ngFor="let image of galleryImages" style="height: 100px; width: 100px;" class=" m-2"><img [src]="image.small" width="100%" /></div>
+                            </div>
+                        </ng-scrollbar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <h4 class="titleZone"> {{'description' | translate}} </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="white-space: pre-wrap;">
+                            {{itemContent.description}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="companieZone">
+                    <div class="userCont" [routerLink]="['/commerce/shop', itemContent.company._id]">
+                        <img [src]="itemContent.company.logo[1].url" alt="">
+                    </div>
+                    <div class="userInfo" [routerLink]="['/commerce/shop', itemContent.company._id]">
+                        <p class="nombrePost">{{itemContent.company.name}}</p>
+                    </div>
+                    <div class="imagenCont">
+                        <div *ngIf="itemContent.company.coverPicture.length">
+                            <img [src]="itemContent.company.coverPicture[1].url" style="object-fit: cover">
+                        </div>
+                    </div>
+                    <div class="posicionboton">
+                        <div class="v-button-parent">
+                            <div class="v-button k-bcolor-1" *ngIf="!itemContent.isFollowed" (click)="follow()">
+                                <i class="icofont icofont-favourite"></i>
+                                <span> {{'seguir' | translate}} </span>
+                            </div>
+                            <div class="v-button k-bcolor-3" *ngIf="itemContent.isFollowed" (click)="unfollow()">
+                                <span> {{'noseguir' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="posicionboton" style="right: 120px; width: 140px;">
+                        <div class="v-button-parent">
+                            <div class="v-button k-bcolor-2" (click)="goToComment()" style="clip-path: polygon(0 15%, 100% 0, 94% 100%, 0 90%)">
+                                <i class="icofont icofont-comment"></i>
+                                <span> {{'comentar' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="containerDescription position-sticky p-3">
+                    <div class="row">
+                        <div class="col-md-7"><h4 style="font-size: 16pt;" class="mb-3 pull-left"> {{itemContent.title}} </h4></div>
+                        <div class="col-md-5 text-right">
+                            <p class="m-0 discount" *ngIf="itemContent.discount"> {{itemContent.discount}} </p>
+                            <p class="m-0 pricing"> {{userlog.currencyFormatter(itemContent.price)}} </p>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-6">
+                            <app-k-select [clear]="false" [items]="quantities" [(model)]="quantity" [placeHolder]="'SelectQuantity'"></app-k-select>
+                        </div>
+                        <div class="col-6">
+                            <app-k-input *ngIf="quantity === 999" [(model)]="quantityOther"   [inputtype]="'text'" [text]="'quantity'"></app-k-input>
+                        </div>
+                    </div>
+                    <div *ngIf="variations.length > 0">
+                        <div class="row my-4" *ngFor="let variation of variations">
+                            <div class="col-12">
+                                <app-k-select [clear]="false" [items]="variation.values" [(model)]="variation.selected" (modelChange)="getPriceVariation()" [placeHolder]="variation.name"></app-k-select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row my-2 text-center" *ngIf="!inStock">
+                        <span class="text-danger">{{ 'notUnitsAvailable' | translate }}</span>
+                    </div>
+
+                    <div class="row my-2 text-center" *ngIf="errorEmptySelection">
+                        <span class="text-danger">{{ 'emptyItemSelection' | translate }}</span>
+                    </div>
+
+                    <div class="sizeLogin w-100 mt-2" *ngIf="inStock">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="k-button k-bcolor-2" (click)="addToCart()">
+                                    <span><i class="icofont icofont-cart-alt"></i> {{ 'addToCart' | translate }} </span>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="k-button k-bcolor-1" (click)="addToCartAndBuy()">
+                                    <span> {{'buy' | translate}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <app-comments (newReview)="createComment($event)" [reviews]="itemContent.reviews"></app-comments>
+                </div>          
+            </div>
+        </div>
+        <div *ngIf="moreCompanyItems.length > 0" class="w-100 cardStyle">
+            <div class="row">
+                <div class="col">
+                    <div class="p-2">
+                        <h4> {{'moreItemsOf' | translate}} {{itemContent.company.name}} </h4>
+                        <!-- <app-products1 [fourItems]="true" [numberItems]='4' [products]="moreCompanyItems" [companie]="itemContent.company.name"></app-products1> -->
+                        <app-products1 [fourItems]="true" [numberItems]='4'  [products]="moreCompanyItems" [companie]="itemContent.company.name"></app-products1>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div *ngIf="moreRelatedItems.length > 0" class="w-100 cardStyle mt-2">
+            <div class="row">
+                <div class="col">
+                    <div class="p-2">
+                        <h4> {{'mayAlsoBeInterested' | translate}} </h4>
+                        <!-- <app-products1 [fourItems]="true" [numberItems]='4' [products]="moreRelatedItems" [companie]="itemContent.company.name"></app-products1> -->
+                        <app-products1 [fourItems]="true" [numberItems]='4'  [products]="moreRelatedItems" [companie]="itemContent.company.name"></app-products1>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    
+</div>
+

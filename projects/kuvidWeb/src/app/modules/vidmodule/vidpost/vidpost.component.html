@@ -1,0 +1,26 @@
+<app-header></app-header>
+<div  class="container-fluid" style="padding-top: 50px;">
+    <div class="row mt-3">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" *ngIf="postContent">
+            <app-post [selected]="true"  [company]="company" ></app-post>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" *ngIf="postContent">
+            <app-comments (newReview)="createComment($event)" [reviews]="postContent.reviews"></app-comments>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <hr>
+    <div class="row mb-4" *ngFor="let item of items">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 fondoTienda">
+            <app-products1 [typeCategory]="true" [fourItems]="true" [numberItems]='4' [products]="item.items" [companie]="item.category.name"></app-products1>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+

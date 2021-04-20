@@ -1,0 +1,85 @@
+.itemStory
+    margin: 10px
+    height: 150px
+    width: 90px
+    background-color: #3d3d3d
+    border-radius: 5px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+    cursor: pointer
+    transition: 0.2s
+    &:hover
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+        -webkit-transform: scale(1.05)
+        -ms-transform: scale(1.05)
+        transform: scale(1.05)
+    &:active
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+        -webkit-transform: scale(1)
+        -ms-transform: scale(1)
+        transform: scale(1)
+
+.itemAdd
+    margin: 10px
+    height: 150px
+    width: 90px
+    background-color: #ffffff
+    border-radius: 5px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+    cursor: pointer
+    transition: 0.2s
+    &:hover
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+        -webkit-transform: scale(1.05)
+        -ms-transform: scale(1.05)
+        transform: scale(1.05)
+    &:active
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+        -webkit-transform: scale(1)
+        -ms-transform: scale(1)
+        transform: scale(1)
+
+.imageSelect
+    height: 550px
+
+.classDropzone
+    width: 60%
+
+.rigthZone
+    background-color: #F6F7F9
+    width: 70%
+    height: 100%
+
+.leftZone
+    display: flex
+    background-color: white
+    width: 30%
+    height: 100%
+
+.positionTextStory
+    position: absolute
+    z-index: 42
+    left: 50%
+    transform: translateX(-50%)
+    bottom: 50%
+    color: white
+    div 
+        font-size: 20pt
+        text-align: center
+        font-weight: bold
+        outline: none
+        min-height: 60px
+        min-width: 100px
+
+.patronZone
+    position: relative
+
+
+@media (max-width: 760px)
+    .classDropzone
+        width: 90%
+
+    .rigthZone
+        width: 100%
+
+    .leftZone
+        display: none

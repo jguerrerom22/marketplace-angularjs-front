@@ -1,0 +1,122 @@
+<app-header></app-header>
+<div style="padding-top: 50px;" class=" containerStudio d-flex justify-content-start align-items-center">
+    <div class="containerMenu">
+        <div class="mt-3">
+            <app-menu-studio ></app-menu-studio>
+        </div>
+    </div>
+    <div class="containerSettings">
+        <app-select-user></app-select-user>
+        <div class="mx-4 d-flex studioTittle justify-content-start align-items-center">
+            <i class="icofont icofont-users-alt-2 mr-2 mb-0 colortext"></i>
+            <p class="m-0 colortext mr-5" style="font-size: 18pt;"> {{'stories' | translate}} </p>
+        </div>
+        <div class="toolsBar mt-2 d-flex justify-content-start align-items-center">  
+            <div style="width: 250px;">
+                <app-k-input [(model)]="search"  [inputtype]="'text'" [text]="'search'"></app-k-input>
+            </div>
+        </div>
+        <div class="containerStories mt-2 toolsBar" >
+            <div class="containerDate" *ngFor="let story of mystories; let i = index">
+                <div class="">
+                    <p class="ml-2 mb-0 mt-4"> {{story.date}} </p>
+                    <hr class="mx-1 mt-0">
+                    <div class="containerStory d-flex justify-content-start flex-wrap align-items-center" >
+                        <div class="itemAdd d-flex justify-content-center align-items-center" (click)="openModal()" (mouseenter)="activeAddColor = true" (mouseleave)="activeAddColor = false" *ngIf="i === 0" >
+                            <i class="icofont icofont-ui-add" [ngClass]="{'colortext': activeAddColor}"></i>
+                        </div>
+                        <div class="itemStory" *ngFor="let item of story.stories" (click)="openModal()">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #formStory>
+    <div class="modal-content p-0 overflow-auto" style="border: 0px;">
+        <div class="modal-body w-100 p-0 d-flex justify-content-center align-items-center">
+            <div class="imageSelect w-100 position-relative">
+                <div (click)="modalRef.hide(); backFile()" style="right: 20px;" class="iconoClose">
+                    <i class=" icofont icofont-close"></i>
+                </div>
+                <div *ngIf="fase === 1" class="w-100 mt-3 p-2">
+                    <div class="d-flex justify-content-center align-items-start flex-column">
+                        <h4 class="mb-0 display-1" style="font-size: 18pt;">{{'StoryCreate' | translate}}</h4>
+                        <p class="mb-1">
+                            {{'modalStorytext1' | translate}}
+                        </p>
+                    </div>
+                    <div class="mx-auto classDropzone">
+                        <ngx-dropzone [multiple]="false" [accept]="'image/png, image/jpeg, video/mp4'" (change)="onSelect($event)">
+                            <ngx-dropzone-label>{{'dragAndDropImage' | translate}} </ngx-dropzone-label>
+                            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"  (removed)="onRemove(f)" >
+                                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            </ngx-dropzone-preview>
+                        </ngx-dropzone>
+                    </div>
+                    <hr>
+                    <div class=" d-flex justify-content-center align-items-center">
+                        <p class="mb-0"> {{'modalStoryText2' | translate}} </p>
+                    </div>
+                    <div class="w-100" >
+                        <owl-carousel  #companies [options]="{items: 3, margin: 0, dots: false, nav: false, loop: false, responsive: {'760': {items: 6, margin: 0}}}">
+                            <div class="itemStory overflow-hidden mb-3" (click)="patron = true; fase = 2; idPatronImage = i" *ngFor="let item of selectImages; let i = index" >
+                                <img [src]="item.name" class="w-100 h-100" alt="">
+                            </div>
+                        </owl-carousel>
+                    </div>
+                </div>
+                <div class="d-flex h-100 justify-content-center align-items-center" *ngIf="fase === 2">
+                    <div class=" leftZone  justify-content-start align-items-center flex-column">
+                        <h4 class="mb-0 mt-4 display-1" style="font-size: 18pt;">{{'StoryCreate' | translate}}</h4>
+                        <p class="mb-1 mt-5 text-center">
+                            {{'modalStoryText3' | translate}}
+                        </p>
+                        <div class="w-100 p-2">
+                            <app-k-textarea [(model)]="textStory" [text]="'storyText'"></app-k-textarea>
+                        </div>
+                        <div class="mt-5" style="width: 220px;">
+                            <div class="k-button k-bcolor-2 mt-2" >
+                                <span> {{'createStory' | translate}} </span>
+                            </div>
+                        </div>
+                        <div class="mt-2" style="width: 220px;" >
+                            <div class="k-button k-bcolor-1 mt-2" (click)="backFile()" >
+                                <span> {{'back' | translate}} </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="overflow-hidden rigthZone d-flex justify-content-center align-items-center">
+                        <div *ngIf="!patron" class="blackZone w-100">
+                            <image-cropper
+                        [imageFile]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="9 / 16"
+                        [resizeToWidth]="1127"
+                        [resizeToHeight]="2008"
+                        format="png"
+                        (imageCropped)="imageCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div *ngIf="patron" class="h-100 w-100 patronZone d-flex justify-content-center align-items-center">
+                            <img class="h-100" [src]="selectImages[idPatronImage].image" alt="">
+                            <div class="positionTextStory">
+                                <div contenteditable style="width: 300px;" [textContent]="textStory" (input)="textStory=$event.target.textContent">
+                                </div>
+                            </div>
+                            <div class="">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</ng-template>

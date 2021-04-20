@@ -1,0 +1,48 @@
+<div class="postContainer">
+    <div class="identificador ">
+        <div class="userInfo" [routerLink]="['commerce/shop', company.companyId]" >
+            <p class="nombrePost">{{company.companyName}}</p>
+            <app-date-format [createdAt]="company.createdAt"></app-date-format>
+        </div>
+    </div>
+    <div  class="contenido position-relative">
+        <div class="userCont" [routerLink]="['commerce/shop', company.companyId]">
+            <img  [src]="company.companyLogo[2].url" alt="">
+        </div>
+        <owl-carousel  *ngIf="company.media.length" #postOwlElement [options]="{items: 1, dotsContainer: ('.dotsCont' + index), loop: false, nav: false, autoplayTimeout: 6000}"  [carouselClasses]="['owl-theme', 'sliding']" >
+            <div class=" item w-100 " *ngFor="let media of company.media">
+                <div #imagen class="imagenCont" [ngStyle]="{'height': imagen.offsetWidth - ((imagen.offsetWidth*33) / 100) +'px'}">
+                    <img *ngIf="!(media.type === 'mp4')" [routerLink]="['/vid/post', company.postId]" [src]="media.url" alt="">
+                    <video width="100%" height="100%" controls>
+                        <source [src]="getembed(media.url)" type="video/mp4">
+                    </video>
+                </div>          
+            </div>
+        </owl-carousel>
+        <div [ngClass]="{'hiddenCheck': (company.media.length < 2)}"  class="dotscontenedor d-flex justify-content-center align-items-center">
+            <div [ngClass]="'dotsCont' + index" >
+                <div class="dot active" *ngFor="let media of company.media; let i = index"><span class="digitNumber">{{i+1}}</span> </div>
+            </div>
+            <div style="display: block !important;"><span class="digitNumber">/{{company.media.length}}</span></div>
+        </div>
+        <!-- <div #imagen class="imagenCont" [ngStyle]="{'height': imagen.offsetWidth - ((imagen.offsetWidth*33) / 100) +'px'}">
+            <img [src]="post.image" alt="">
+        </div> -->
+        <div class="textoCampo" [ngClass]="{'minimizar': !selected, 'box': !selected}">
+            <pre class="textDescription mt-2" [innerHTML]="company.description"></pre>
+        </div>
+        <hr class="m-0">
+        <div [routerLink]="['/vid/post', company.postId]" style="cursor: pointer; outline: 0;" class="mt-1 iconosybotones d-flex align-items-center" [ngClass]="{'justify-content-between': company.lastReview, 'justify-content-end': !company.lastReview }">
+            <div style="width: 70%;"*ngIf="company.lastReview">
+                <p class="m-0" style="font-size: 8pt; font-weight: bold;">{{'lastReview' | translate}} </p>
+                <div class="w-100 box">
+                    <p *ngIf="!selected" class="review_post" > {{company.lastReview.comment}} </p>
+                </div>
+            </div>
+            <div>
+                <span *ngIf="!selected" class="ml-auto textMostrar colortext" > {{'mostrar' | translate}} <i class="icofont icofont-eye-alt"></i></span>
+
+            </div>
+        </div>
+    </div>
+</div>

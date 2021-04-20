@@ -1,0 +1,20 @@
+{
+    "subscribe": "Únete para recibir más información",
+    "email": "Correo Electrónico",
+    "name": "Nombre",
+    "namecompany": "Nombre Empresa",
+    "emailinvalid": "Por favor revisa que tu correo sea válido",
+    "textCompany": "Cuéntanos sobre tu empresa",
+    "textUser": "Descubre una nueva manera de conectarte con compradores y vendedores, promocionando productos y servicios con marca nacional, dentro de un ecosistema digital",
+    "placeUser": "Escribe algo...",
+    "placeCompany": "Sector económico, Productos, Servicios o lo que quieras...",
+    "send": "Enviar",
+    "thankyou": "Gracias por querer saber más de Ku-vid, pronto te enviaremos nuevas noticias",
+    "ok": "¡Vale!",
+    "privacytext": "Política de privacidad",
+    "needname": "El nombre es necesario",
+    "emailexist": "Este registro ya existe",
+    "errorServer": "Ups, por favor intentelo más tarde",
+    "city": "Ciudad",
+    "goAction": "¡Únete!"
+}

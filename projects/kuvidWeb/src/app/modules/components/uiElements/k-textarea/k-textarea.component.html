@@ -1,0 +1,4 @@
+<div class=" k-input">
+    <label *ngIf="model" [@fadeInOnEnter] for="">{{text |translate}}</label>
+    <textarea  [(ngModel)]="model" id="" [rows]="rows" style="width: 100%; resize: none;" placeholder="{{text |translate}}" (input)="inputedit()"></textarea>
+</div>

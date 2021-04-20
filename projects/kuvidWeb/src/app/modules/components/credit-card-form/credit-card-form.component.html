@@ -1,0 +1,62 @@
+<div class="modal-content p-0" style="border: 0px;">
+    <div class="modal-body position-relative w-100 p-0 d-flex justify-content-center align-items-center">
+        <div (click)="closeModal()" class="iconoClose2">
+            <i class="icofont icofont-close icofont-2x"></i>
+        </div>
+
+        <div class="left-zone">
+            <img style="width: 100%; height: 100%;" src="assets/images/BannerProducts.png" alt="">
+        </div>
+
+        <div class="rigth-zone">
+
+            <div class="w-100 px-3">
+                <p class="mt-4 display-1 mr-4 mb-0" style="font-size: 16pt;"> {{'CreditCardCreateTittle' | translate}} </p>
+                <p style="font-size: 10pt;">{{'textCreditCardCreate' | translate}}</p>
+                <div class="row mt-3">
+                    <div class="col-md-12 mt-4">
+                        <app-k-input [text]="'creditCardName'" [(model)]="creditCardData.name" [inputtype]="'text'"></app-k-input>
+                        <span *ngIf="fieldsValidation.name" class="text-danger"> {{ 'formValidName' | translate }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-4">
+                        <app-k-input [text]="'creditCardNumber'" [(model)]="creditCardData.number" [mask]="'0000-0000-0000-0000'" [inputtype]="'text'"></app-k-input>
+                        <span *ngIf="fieldsValidation.number" class="text-danger"> {{ 'formValidCreditCardNumber' | translate }}</span>
+                    </div>
+                </div>
+                <p class="mt-3">{{'expirationDate' | translate}}</p>
+                <div class="row">
+                    <div class="col-6 mt-4">
+                        <app-k-select [(model)]="creditCardData.expMonth" [items]="months" [placeHolder]="'month'" ></app-k-select>
+                        <span *ngIf="fieldsValidation.expMonth" class="text-danger"> {{ 'formValidCreditCardMonth' | translate }}</span>
+                    </div>
+                    <div class="col-6 mt-4">
+                        <app-k-select [(model)]="creditCardData.expYear" [items]="years" [placeHolder]="'year'" ></app-k-select>
+                        <span *ngIf="fieldsValidation.expYear" class="text-danger"> {{ 'formValidCreditCardYear' | translate }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mt-4">
+                        <app-k-input [text]="'CVC'" [(model)]="creditCardData.cvc" [inputtype]="'text'"></app-k-input>
+                        <span *ngIf="fieldsValidation.cvc" class="text-danger"> {{ 'formValidCreditCardCVC' | translate }}</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-9">
+                        <span *ngIf="errorRegistration" class="text-danger">{{ 'errorCreditCardRegistration' | translate }}</span>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <div >
+                            <div (click)="saveCreditCard()" class="k-button k-bcolor-2 mt-2" >
+                                <span> {{'save' | translate}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    <ngx-loading [show]="loading"></ngx-loading>
+</div>

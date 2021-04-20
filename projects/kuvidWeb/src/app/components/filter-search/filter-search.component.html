@@ -1,0 +1,26 @@
+<div class="cuerpocategory mb-2">
+    <div class="tituloZona">
+        <p class="ml-3 mt-1 mb-0 titleZone" style="font-weight: bold;">{{'Filtros' | translate}}</p>
+    </div>
+    <div class="w-100 mt-2 px-2 pb-3">
+        <div class="row">
+            <div class="col-12">
+                <p class="minText ml-2">Precio</p>
+                <hr class="mt-0 ">
+                <div [ngClass]="{'activeFilter': price.active}" (click)="selectPrice(price.id)" *ngFor="let price of prices" class="botonCategory justify-content-start align-items-center pl-2">
+                    <span class="textCat ml-2">{{price.name}}</span>
+                    <i class="icofont icofont-close pull-right mt-1 mr-2" *ngIf="price.active"></i>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-4">
+            <div class="col-12">
+                <p class="minText ml-2">Promoción</p>
+                <hr class="mt-0">
+                <div [ngClass]="{'activeFilter': precio.active}" (click)="precio.active = !precio.active" *ngFor="let precio of descuentos" class="botonCategory d-flex justify-content-start align-items-center pl-2">
+                    <span class="textCat ml-2">{{precio.name}}</span>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
